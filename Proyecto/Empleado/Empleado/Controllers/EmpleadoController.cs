@@ -4,7 +4,7 @@ using Servicio;
 namespace Empleado.Controllers
 {
 [Route("api/[controller]")]
-[ApiController]
+    [ApiController]
 public class EmpleadoController : ControllerBase
 {
 
@@ -15,6 +15,7 @@ public class EmpleadoController : ControllerBase
             _empleadoService = empleadoService;
         }
 
+        [HttpGet]
     public async Task<IActionResult> GetEmpleado()
     {
             // Simulación de la lógica para obtener la información del empleado

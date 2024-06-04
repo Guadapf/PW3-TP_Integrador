@@ -1,5 +1,7 @@
 using Entidades;
 using Servicio;
+using System.Net.Http;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 
 builder.Services.AddSingleton<IEmpleadoService, EmpleadoService>();
+//builder.Services.AddSingleton<IEmpleadoService, EmpleadoService>( x =>
+//    new Service(x.GetRequiredService<IHttpClientFactory>(),
+//                ""));
+//builder.Services.AddTransient<IEmpleadoService, EmpleadoService>();
+//builder.Services.AddSingleton<IEmpleadoService, EmpleadoService>(x =>
+//    new Service(
+//        services.BuildServiceProvider().GetService<IHttpClientFactory>(),
+//        ""));
 
 //builder.Services.AddTransient<IEmpleadoService, EmpleadoService>();
 //builder.Services.AddTransient<IEmpleadoService, EmpleadoService>();

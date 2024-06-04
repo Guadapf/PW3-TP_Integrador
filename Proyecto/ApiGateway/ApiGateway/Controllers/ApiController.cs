@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiGateway.Controllers
@@ -6,9 +7,9 @@ namespace ApiGateway.Controllers
     [ApiController]
     public class EmpleadoController : ControllerBase
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClient;
 
-        public EmpleadoController(HttpClient httpClient)
+        public EmpleadoController(IHttpClientFactory httpClient)
         {
             _httpClient = httpClient;
         }
@@ -16,9 +17,30 @@ namespace ApiGateway.Controllers
         [HttpGet("")]
         public async Task<IActionResult> ObtenerEmpleados()
         {
-            var response = await _httpClient.GetAsync($"http://localhost:5009/api/empleado/");
+            var httpRequestMessage = new HttpRequestMessage(
+                HttpMethod.Get,
+                "https://localhost:7252/api/empleado")
+            {
+                Headers =
+                {
+                    {"Accept", "application/json" },
+                    {"User-Agent", "HttpRequestsSample" }
+                }
+            };
+
+            var myClientINC = _httpClient.CreateClient();
+            var response = await myClientINC.SendAsync(httpRequestMessage);
+
             var content = await response.Content.ReadAsStringAsync();
-            return Content(content, response.Content.Headers.ContentType.ToString());
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Content(content, response.Content.Headers.ContentType.ToString());
+            } else
+            {
+                return Content(content, "mission failed, we'll get 'em next time");
+            }
+            
         }
          
         // Otros métodos para CRUD de Empleados
