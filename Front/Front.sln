@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Front", "Front\Front.csproj", "{60FAEC91-16B9-44E7-B311-B3B88617CBD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servicio", "Servicio\Servicio.csproj", "{F1B6CF79-4AE6-4796-AA5F-D8F30C6A3285}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entidades", "Entidades\Entidades.csproj", "{30C2D46A-2CF8-46D6-BA70-0D994B38FC33}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60FAEC91-16B9-44E7-B311-B3B88617CBD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60FAEC91-16B9-44E7-B311-B3B88617CBD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60FAEC91-16B9-44E7-B311-B3B88617CBD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60FAEC91-16B9-44E7-B311-B3B88617CBD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1B6CF79-4AE6-4796-AA5F-D8F30C6A3285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1B6CF79-4AE6-4796-AA5F-D8F30C6A3285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1B6CF79-4AE6-4796-AA5F-D8F30C6A3285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1B6CF79-4AE6-4796-AA5F-D8F30C6A3285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30C2D46A-2CF8-46D6-BA70-0D994B38FC33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30C2D46A-2CF8-46D6-BA70-0D994B38FC33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30C2D46A-2CF8-46D6-BA70-0D994B38FC33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30C2D46A-2CF8-46D6-BA70-0D994B38FC33}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EEBF69B9-7BD1-41BE-AFFA-F6670DCAF144}
+	EndGlobalSection
+EndGlobal

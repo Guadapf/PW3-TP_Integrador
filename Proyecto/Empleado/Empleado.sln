@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Empleado", "Empleado\Empleado.csproj", "{E3E01004-9616-46FB-8C7C-731D7D46FE23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servicio", "Servicio\Servicio.csproj", "{90F34CC0-C644-49F9-A6BC-2E2AA471B58F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entidades", "Entidades\Entidades.csproj", "{2EBE4C84-CDF3-45DF-923D-56ACEEDEF424}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3E01004-9616-46FB-8C7C-731D7D46FE23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3E01004-9616-46FB-8C7C-731D7D46FE23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3E01004-9616-46FB-8C7C-731D7D46FE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3E01004-9616-46FB-8C7C-731D7D46FE23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90F34CC0-C644-49F9-A6BC-2E2AA471B58F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F34CC0-C644-49F9-A6BC-2E2AA471B58F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90F34CC0-C644-49F9-A6BC-2E2AA471B58F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90F34CC0-C644-49F9-A6BC-2E2AA471B58F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EBE4C84-CDF3-45DF-923D-56ACEEDEF424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EBE4C84-CDF3-45DF-923D-56ACEEDEF424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EBE4C84-CDF3-45DF-923D-56ACEEDEF424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EBE4C84-CDF3-45DF-923D-56ACEEDEF424}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A55145F7-1EFC-4554-B759-E76A98CF7267}
+	EndGlobalSection
+EndGlobal
