@@ -6,7 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddTransient<IEmpleadoService, EmpleadoService>();
+builder.Services.AddHttpClient();
+
+builder.Services.AddSingleton<IEmpleadoService, EmpleadoService>();
+
+//builder.Services.AddTransient<IEmpleadoService, EmpleadoService>();
 //builder.Services.AddTransient<IEmpleadoService, EmpleadoService>();
 //services.AddTransient<Checkout>(new Checkout());
 

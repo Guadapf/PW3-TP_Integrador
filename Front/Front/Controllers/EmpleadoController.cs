@@ -8,9 +8,9 @@ namespace Front.Controllers
     public class EmpleadoController : Controller
     {
 
-        private readonly EmpleadoService _empleadoService;
+        private readonly IEmpleadoService _empleadoService;
 
-        public EmpleadoController(EmpleadoService empleadoService)
+        public EmpleadoController(IEmpleadoService empleadoService)
         {
             _empleadoService = empleadoService;
         }
