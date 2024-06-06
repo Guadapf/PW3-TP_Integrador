@@ -1,1 +1,35 @@
-﻿<h2>OMG SOS ASOMBOROSO</h2>
+﻿@model List<Front.Models.EmpleadoModel>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
+    </div>
+}
+
+@if (TempData["StackTrace"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["StackTrace"]
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Empleado</th>
+            <th>Nombre</th>
+            <th>Edad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var empleado in Model)
+        {
+            <tr>
+                <td>@empleado.idEmpleado</td>
+                <td>@empleado.Nombre</td>
+                <td>@empleado.Edad</td>
+            </tr>
+        }
+    </tbody>
+</table>

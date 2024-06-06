@@ -19,7 +19,7 @@ namespace ApiGateway.Controllers
         {
             var httpRequestMessage = new HttpRequestMessage(
                 HttpMethod.Get,
-                "https://localhost:7252/api/empleado")
+                "https://localhost:7252/api/empleado")  
             {
                 Headers =
                 {
@@ -35,12 +35,13 @@ namespace ApiGateway.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return Content(content, response.Content.Headers.ContentType.ToString());
-            } else
-            {
-                return Content(content, "mission failed, we'll get 'em next time");
+                return Content(content, "application/json");
             }
-            
+            else
+            {
+                return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+            }
+
         }
          
         // Otros métodos para CRUD de Empleados
