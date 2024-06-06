@@ -1,4 +1,4 @@
-using Empleado;
+using EmployeeService;
 using Microsoft.EntityFrameworkCore;
 using Repositorio;
 using Servicio;
@@ -15,13 +15,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IEmpleadoService, ServicioEmpleado>(); 
+builder.Services.AddTransient<IEmpleadoRepository, EmpleadoRepository>();
+builder.Services.AddTransient<IEmpleadoService, ServicioEmpleado>(); 
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
