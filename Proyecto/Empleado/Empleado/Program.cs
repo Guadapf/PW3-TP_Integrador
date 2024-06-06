@@ -1,6 +1,12 @@
+using Empleado;
+using Microsoft.EntityFrameworkCore;
+using Repositorio;
 using Servicio;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<EmpleadoContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("EmpleadoDbConnection")));
 
 // Add services to the container.
 
