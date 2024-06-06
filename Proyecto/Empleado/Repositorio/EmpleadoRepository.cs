@@ -18,7 +18,7 @@ public interface IEmpleadoRepository
 }
 public class EmpleadoRepository : IEmpleadoRepository
 {
-    public EmpleadoContext _ctx { get; set; }
+    private EmpleadoContext _ctx { get; set; }
 
     public EmpleadoRepository(EmpleadoContext empleadoContext)
     {

@@ -21,9 +21,9 @@ public partial class Empleado
 
     public int IdDepartamento { get; set; }
 
-    public virtual Departamento IdDepartamentoNavigation { get; set; } = null!;
+    public virtual Departamento? IdDepartamentoNavigation { get; set; } = null!;
 
-    public virtual Genero IdGeneroNavigation { get; set; } = null!;
+    public virtual Genero? IdGeneroNavigation { get; set; } = null!;
 
-    public virtual Pai IdPaisNavigation { get; set; } = null!;
+    public virtual Pai? IdPaisNavigation { get; set; } = null!;
 }

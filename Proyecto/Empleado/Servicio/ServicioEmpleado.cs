@@ -1,4 +1,5 @@
 ﻿using Entidades;
+using Repositorio;
 using System.Text.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -6,44 +7,66 @@ namespace Servicio;
 
 public interface IEmpleadoService
 {
-    public void cargarEmpleado();
-    string ObtenerEmpleados();
+    Task cargarEmpleado(Empleado empleado);
+    Task<string> ObtenerEmpleados();
+    Task ActualizarEmpleado(Empleado empleado);
+    Task EliminarEmpleado(int idEmpleado);
+    Task<string> ObtenerEmpleadoPorId(int idEmpleado);
 }
 
 public class ServicioEmpleado : IEmpleadoService
 {
-    private static List<Empleado> _empleado = new List<Empleado>();
+    private IEmpleadoRepository _empleadoRepository;
 
-    public void cargarEmpleado() {
-        new Empleado
-        {
-            idEmpleado = 1,
-            Nombre = "Juan Perez"
-        };
-
+    public ServicioEmpleado(IEmpleadoRepository empleadoRepository)
+    {
+        _empleadoRepository = empleadoRepository;
     }
 
-    public string ObtenerEmpleados()
+    public async Task ActualizarEmpleado(Empleado empleado)
     {
-        //------------------------------
-        // Reemplazar por algo dinámico
-        //------------------------------
-        var empleado1 = new Empleado
+        if(empleado != null)
         {
-            idEmpleado = 01,
-            Nombre = "Juan Pérez",
-            Edad = 39
-        };
-        var empleado2 = new Empleado
+            await _empleadoRepository.UpdateEmpleado(empleado);
+        }
+    }
+
+    public async Task cargarEmpleado(Empleado empleado) {
+        empleado.IdEmpleado = await BuscarUltimoId();
+       await _empleadoRepository.AddEmpleado(empleado);
+    }
+
+    private async Task<int> BuscarUltimoId()
+    {
+        var empleados = await _empleadoRepository.GetEmpleados();
+        var ultimoId = empleados.Count == 0 ? 0 : empleados.Max(e => e.IdEmpleado);
+        int nuevoId = ultimoId + 1;
+        return nuevoId;
+    }
+    public async Task<string> ObtenerEmpleadoPorId(int idEmpleado)
+    {
+        var empleado = await _empleadoRepository.GetEmpleadoById(idEmpleado);
+        var opciones = new JsonSerializerOptions
         {
-            idEmpleado = 02,
-            Nombre = "Juana Pereza",
-            Edad = 93
+            PropertyNameCaseInsensitive = true
         };
-        var listaEmpleados = new List<Empleado>();
-        listaEmpleados.Add(empleado1);
-        listaEmpleados.Add(empleado2);
-        //------------------------------
+        string jsonString = JsonSerializer.Serialize(empleado, opciones);
+        return jsonString;
+    }
+
+    public async Task EliminarEmpleado(int idEmpleado)
+    {
+        var empleado = await ObtenerEmpleadoPorId(idEmpleado);
+        if(empleado != null)
+        {
+            await _empleadoRepository.DeleteEmpleado(idEmpleado);
+        }
+    }
+
+
+    public async Task<string> ObtenerEmpleados()
+    {
+        var listaEmpleados = await _empleadoRepository.GetEmpleados();
         var opciones = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
