@@ -14,11 +14,11 @@ namespace Servicio
         private static List<Empleado> _empleado = new List<Empleado>();
 
         public void cargarEmpleado() {
-            new Empleado
+            /*new Empleado
             {
                 idEmpleado = 1,
                 Nombre = "Juan Perez"
-            };
+            };*/
 
         }
 
