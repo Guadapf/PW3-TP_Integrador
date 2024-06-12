@@ -60,7 +60,8 @@ public class EmpleadoController : ControllerBase
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
+                var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "Detalles no disponibles";
+                return StatusCode(500, $"Error interno del servidor: {innerExceptionMessage}");
             }
         }
 

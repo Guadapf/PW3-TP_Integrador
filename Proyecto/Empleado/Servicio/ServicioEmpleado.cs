@@ -1,6 +1,7 @@
 ﻿using Entidades;
 using Repositorio;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Servicio;
@@ -32,23 +33,16 @@ public class ServicioEmpleado : IEmpleadoService
     }
 
     public async Task cargarEmpleado(Empleado empleado) {
-        empleado.IdEmpleado = await BuscarUltimoId();
        await _empleadoRepository.AddEmpleado(empleado);
     }
 
-    private async Task<int> BuscarUltimoId()
-    {
-        var empleados = await _empleadoRepository.GetEmpleados();
-        var ultimoId = empleados.Count == 0 ? 0 : empleados.Max(e => e.IdEmpleado);
-        int nuevoId = ultimoId + 1;
-        return nuevoId;
-    }
     public async Task<string> ObtenerEmpleadoPorId(int idEmpleado)
     {
         var empleado = await _empleadoRepository.GetEmpleadoById(idEmpleado);
         var opciones = new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
+            ReferenceHandler = ReferenceHandler.IgnoreCycles
         };
         string jsonString = JsonSerializer.Serialize(empleado, opciones);
         return jsonString;
@@ -69,7 +63,8 @@ public class ServicioEmpleado : IEmpleadoService
         var listaEmpleados = await _empleadoRepository.GetEmpleados();
         var opciones = new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
+            ReferenceHandler = ReferenceHandler.IgnoreCycles
         };
         string jsonString = JsonSerializer.Serialize(listaEmpleados, opciones);
         return jsonString;

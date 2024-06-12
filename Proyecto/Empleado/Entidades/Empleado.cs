@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Entidades;
 
@@ -21,9 +23,17 @@ public partial class Empleado
 
     public int IdDepartamento { get; set; }
 
+    [JsonIgnore]
     public virtual Departamento? IdDepartamentoNavigation { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual Genero? IdGeneroNavigation { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual Pai? IdPaisNavigation { get; set; } = null!;
+
+    [NotMapped]
+    public string? DepartamentoDescripcion { get; set; } = null!;
+    [NotMapped]
+    public string? GeneroDescripcion { get; set; } = null!;
+    [NotMapped]
+    public string? PaisDescripcion { get; set; } = null!;
 }

@@ -61,11 +61,47 @@ public class EmpleadoRepository : IEmpleadoRepository
 
     public async Task<Empleado> GetEmpleadoById(int idEmpleado)
     {
-        return await _ctx.Empleados.FindAsync(idEmpleado);
+        return await _ctx.Empleados
+                     .Include(e => e.IdDepartamentoNavigation)
+                     .Include(e => e.IdGeneroNavigation)
+                     .Include(e => e.IdPaisNavigation)
+                     .Select(e => new Empleado
+                     {
+                         IdEmpleado = e.IdEmpleado,
+                         Nombre = e.Nombre,
+                         Apellido = e.Apellido,
+                         FechaNac = e.FechaNac,
+                         FechaIngreso = e.FechaIngreso,
+                         IdGenero = e.IdGenero,
+                         IdPais = e.IdPais,
+                         IdDepartamento = e.IdDepartamento,
+                         DepartamentoDescripcion = e.IdDepartamentoNavigation.Descripcion,
+                         GeneroDescripcion = e.IdGeneroNavigation.Descripcion,
+                         PaisDescripcion = e.IdPaisNavigation.Descripcion
+                     })
+                     .FirstOrDefaultAsync(e => e.IdEmpleado == idEmpleado);
     }
 
     public async Task<List<Empleado>> GetEmpleados()
     {
-        return await _ctx.Empleados.ToListAsync();
+        return await _ctx.Empleados
+                     .Include(e => e.IdDepartamentoNavigation)
+                     .Include(e => e.IdGeneroNavigation)
+                     .Include(e => e.IdPaisNavigation)
+                     .Select(e => new Empleado
+                     {
+                         IdEmpleado = e.IdEmpleado,
+                         Nombre = e.Nombre,
+                         Apellido = e.Apellido,
+                         FechaNac = e.FechaNac,
+                         FechaIngreso = e.FechaIngreso,
+                         IdGenero = e.IdGenero,
+                         IdPais = e.IdPais,
+                         IdDepartamento = e.IdDepartamento,
+                         DepartamentoDescripcion = e.IdDepartamentoNavigation.Descripcion,
+                         GeneroDescripcion = e.IdGeneroNavigation.Descripcion,
+                         PaisDescripcion = e.IdPaisNavigation.Descripcion
+                     })
+                     .ToListAsync();
     }
 }
