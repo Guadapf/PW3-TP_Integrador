@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Servicio;
 using Entidades;
+using System.Text.Json;
 
 namespace EmployeeService.Controllers
 {
@@ -46,7 +47,7 @@ public class EmpleadoController : ControllerBase
         }
 
         [HttpPost]
-        public async Task<IActionResult> CargarEmpleado([FromBody] Empleado empleado)
+        public async Task<IActionResult> CargarEmpleado([FromBody] string cuerpo)
         {
             if (!ModelState.IsValid)
             {
@@ -55,6 +56,7 @@ public class EmpleadoController : ControllerBase
 
             try
             {
+                Empleado empleado = JsonSerializer.Deserialize<Empleado>(cuerpo);
                 await _empleadoService.cargarEmpleado(empleado);
                 return Ok(new { Message = "Empleado agregado correctamente" });
             }
