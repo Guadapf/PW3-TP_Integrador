@@ -31,7 +31,7 @@ namespace Front.Controllers
             // Crear petición
             var mensajePeticionHttp = new HttpRequestMessage(
                 HttpMethod.Get,
-                "https://localhost:7253/api/empleado")
+                "https://localhost:7253/api/empleado/GetEmpleados")
             {
                 Headers =
                 {
