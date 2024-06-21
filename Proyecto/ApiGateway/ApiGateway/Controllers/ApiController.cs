@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
+using System.Text.Json;
 
 namespace ApiGateway.Controllers
 {
@@ -75,27 +76,29 @@ namespace ApiGateway.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CargarEmpleado([FromBody] string empleado)
+        public async Task<IActionResult> CrearEmpleado([FromBody] JsonElement jsonElement)
         {
-            var httpRequestMessage = new HttpRequestMessage(
-                HttpMethod.Post,
-                "https://localhost:7252/api/Empleado")
+            // Serialize the received JSON payload back to a string
+            var jsonString = jsonElement.GetRawText();
+
+            Console.WriteLine(jsonString);
+
+            // Create HTTP client and request
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/empleado")
             {
-                Headers =
-                {
-                    {"Accept", "application/json" },
-                    {"User-Agent", "HttpRequestsSample" }
-                },
-                Content = new StringContent(empleado, Encoding.UTF8, "application/json")
+                Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
             };
 
-            var myClientINC = _httpClient.CreateClient();
-            var response = await myClientINC.SendAsync(httpRequestMessage);
+            // Send the request
+            var response = await client.SendAsync(request);
+
+            // Get response content
+            var content = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                return Ok(responseContent);
+                return Content(content, "application/json");
             }
             else
             {

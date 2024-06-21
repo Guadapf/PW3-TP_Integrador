@@ -47,7 +47,7 @@ public class EmpleadoController : ControllerBase
         }
 
         [HttpPost]
-        public async Task<IActionResult> CargarEmpleado([FromBody] string cuerpo)
+        public async Task<IActionResult> CargarEmpleado([FromBody] JsonElement jsonElement)
         {
             if (!ModelState.IsValid)
             {
@@ -56,7 +56,7 @@ public class EmpleadoController : ControllerBase
 
             try
             {
-                Empleado empleado = JsonSerializer.Deserialize<Empleado>(cuerpo);
+                Empleado empleado = JsonSerializer.Deserialize<Empleado>(jsonElement);
                 await _empleadoService.cargarEmpleado(empleado);
                 return Ok(new { Message = "Empleado agregado correctamente" });
             }

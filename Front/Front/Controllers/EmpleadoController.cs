@@ -70,5 +70,48 @@ namespace Front.Controllers
             return View(listaEmpleados);
         }
 
+        public async Task<IActionResult> CreateEmpleado()
+        {
+
+            //------------------------
+            // HARDCODEADO DE MOMENTO
+            //------------------------
+            CrearEmpleadoModel empleado = new CrearEmpleadoModel
+            {
+                Nombre = "John",
+                Apellido = "Doe",
+                FechaNac = new DateOnly(1999, 6, 21),
+                FechaIngreso = new DateOnly(2020, 6, 21),
+                IdGenero = 1,
+                IdPais = 1,
+                IdDepartamento = 1
+            };
+            //------------------------
+
+            var jsonEmpleado = JsonSerializer.Serialize(empleado);
+            var contenido = new StringContent(jsonEmpleado, Encoding.UTF8, "application/json");
+
+            Console.WriteLine(jsonEmpleado);
+
+            var clienteHttp = _httpClientFactory.CreateClient();
+            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado")
+            {
+                Content = contenido
+            };
+
+            var mensajeRespuesta = await clienteHttp.SendAsync(mensajePeticionHttp);
+
+            if (mensajeRespuesta.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Empleado created successfully!");
+            }
+            else
+            {
+                Console.WriteLine("HTTP request failed with status code: " + mensajeRespuesta.StatusCode);
+            }
+
+            return RedirectToAction("Details");
+        }
     }
+
 }
