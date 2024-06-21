@@ -14,21 +14,35 @@
     </div>
 }
 
+<div class="container-fluid d-flex justify-content-end">
+    <a asp-area="" asp-controller="Empleado" asp-action="CrearEmpleado" class="bg-dark rounded d-inline-flex justify-content-around align-items-center w-25" style="color:white;text-decoration:none;">
+        <img src="~/user-plus-solid.svg" class="m-1" style="max-width: 1.5em;>  <p class="m-1">Dar de Alta</p>
+    </a>
+</div>
+
 <table class="table">
     <thead>
         <tr>
-            <th>ID Empleado</th>
             <th>Nombre</th>
-            <th>Edad</th>
+            <th>Apellido</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Fecha de Ingreso</th>
+            <th>Género</th>
+            <th>País</th>
+            <th>Departamento</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var empleado in Model)
         {
             <tr>
-                <td>@empleado.IdEmpleado</td>
                 <td>@empleado.Nombre</td>
                 <td>@empleado.Apellido</td>
+                <td>@empleado.FechaNac</td>
+                <td>@empleado.FechaIngreso</td>
+                <td>@empleado.IdGenero</td>
+                <td>@empleado.IdPais</td>
+                <td>@empleado.IdDepartamento</td>
             </tr>
         }
     </tbody>

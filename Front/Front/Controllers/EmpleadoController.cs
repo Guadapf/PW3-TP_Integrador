@@ -86,23 +86,6 @@ namespace Front.Controllers
             if (!ModelState.IsValid)
                 return View(modelo);
 
-            //------------------------
-            // HARDCODEADO DE MOMENTO
-            //------------------------
-            /*
-            CrearEmpleadoModel empleado = new CrearEmpleadoModel
-            {
-                Nombre = "John",
-                Apellido = "Doe",
-                FechaNac = new DateOnly(1999, 6, 21),
-                FechaIngreso = new DateOnly(2020, 6, 21),
-                IdGenero = 1,
-                IdPais = 1,
-                IdDepartamento = 1
-            };
-            */
-            //------------------------
-
             var jsonEmpleado = JsonSerializer.Serialize(modelo);
             var contenido = new StringContent(jsonEmpleado, Encoding.UTF8, "application/json");
 
