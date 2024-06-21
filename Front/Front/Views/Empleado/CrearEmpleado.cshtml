@@ -1,0 +1,45 @@
+﻿@model CrearEmpleadoModel
+
+<form action="/Empleado/CrearEmpleado" method="post">
+    <div class="form-group">
+        <!-- fun fact: estas weas se llaman HTML Helper y son de ASP.NET MVC -->
+        @Html.LabelFor(model => model.Nombre)
+        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", type = "text" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Apellido)
+        @Html.TextBoxFor(model => model.Apellido, new { @class = "form-control", type = "text" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FechaNac)
+        @Html.TextBoxFor(model => model.FechaNac, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FechaIngreso)
+        @Html.TextBoxFor(model => model.FechaIngreso, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+    </div>
+
+    <!--
+        *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+        | CAMBIAR POR ELEMENTOS SELECT |
+        *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+    -->
+    <div class="form-group">
+        @Html.LabelFor(model => model.IdGenero)
+        @Html.TextBoxFor(model => model.IdGenero, new { @class = "form-control", type = "number" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IdPais)
+        @Html.TextBoxFor(model => model.IdPais, new { @class = "form-control", type = "number" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IdDepartamento)
+        @Html.TextBoxFor(model => model.IdDepartamento, new { @class = "form-control", type = "number" })
+    </div>
+    <!--
+        *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+    -->
+
+    <button type="submit" class="btn btn-primary">Procesar</button>
+
+</form>

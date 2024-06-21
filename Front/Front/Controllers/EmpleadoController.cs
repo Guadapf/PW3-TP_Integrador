@@ -20,6 +20,11 @@ namespace Front.Controllers
             _empleadoService = empleadoService;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Details()
         {
             
@@ -70,12 +75,21 @@ namespace Front.Controllers
             return View(listaEmpleados);
         }
 
-        public async Task<IActionResult> CreateEmpleado()
+        public IActionResult CrearEmpleado()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearEmpleado(CrearEmpleadoModel modelo)
+        {
+            if (!ModelState.IsValid)
+                return View(modelo);
 
             //------------------------
             // HARDCODEADO DE MOMENTO
             //------------------------
+            /*
             CrearEmpleadoModel empleado = new CrearEmpleadoModel
             {
                 Nombre = "John",
@@ -86,9 +100,10 @@ namespace Front.Controllers
                 IdPais = 1,
                 IdDepartamento = 1
             };
+            */
             //------------------------
 
-            var jsonEmpleado = JsonSerializer.Serialize(empleado);
+            var jsonEmpleado = JsonSerializer.Serialize(modelo);
             var contenido = new StringContent(jsonEmpleado, Encoding.UTF8, "application/json");
 
             Console.WriteLine(jsonEmpleado);
