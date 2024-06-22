@@ -116,13 +116,63 @@ namespace Front.Controllers
         // | GÉNERO |
         // *-*-*-*-*-
 
-        public IActionResult ListarGeneros()
+        public async Task<IActionResult> ListarGeneros()
         {
+            /*
             List<GeneroModel> generos = new List<GeneroModel>();
             generos.Add(new GeneroModel { IdGenero = 1, Descripcion = "Masculino" });
             generos.Add(new GeneroModel { IdGenero = 2, Descripcion = "Femenino" });
             generos.Add(new GeneroModel { IdGenero = 3, Descripcion = "Otro" });
             generos.Add(new GeneroModel { IdGenero = 4, Descripcion = "más gei que eze (difícil)" });
+            */
+
+            // Crear petición
+            var mensajePeticionHttp = new HttpRequestMessage(
+                HttpMethod.Get,
+                "https://localhost:7253/api/empleado/GetGeneros")
+            {
+                Headers =
+                {
+                    {"Accept", "application/json" },
+                    {"User-Agent", "HttpRequestsSample" }
+                }
+            };
+
+            // Crear cliente HTTP
+
+            var clienteHttp = _httpClientFactory.CreateClient();
+            // Realizar petición y almacenar respuesta
+
+            var mensajeRespuesta = await clienteHttp.SendAsync(mensajePeticionHttp);
+            List<GeneroModel> generos = new List<GeneroModel>();
+
+            if (mensajeRespuesta.IsSuccessStatusCode)
+            {
+                try
+                {
+                    string cadenaRespuesta = await mensajeRespuesta.Content.ReadFromJsonAsync<string>();
+
+                    if (!string.IsNullOrEmpty(cadenaRespuesta))
+                    {
+                        generos = JsonSerializer.Deserialize<List<GeneroModel>>(cadenaRespuesta);
+
+                        if (generos == null || generos.Count == 0)
+                        {
+                            TempData["Message"] = "Deserialization returned null or empty list.";
+                        }
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    TempData["Message"] = "Error deserializing JSON: " + ex.Message;
+                    TempData["StackTrace"] = ex.StackTrace;
+                }
+            }
+            else
+            {
+                TempData["Message"] = "HTTP request failed with status code: " + mensajeRespuesta.StatusCode;
+            }
+
             return View(generos);
         }
 
@@ -130,12 +180,62 @@ namespace Front.Controllers
         // | PAÍS |
         // *-*-*-*-
 
-        public IActionResult ListarPaises()
+        public async Task<IActionResult> ListarPaises()
         {
+            /*
             List<PaisModel> paises = new List<PaisModel>();
             paises.Add(new PaisModel { IdPais = 1, Descripcion = "Argentina (namber uan)" });
             paises.Add(new PaisModel { IdPais = 2, Descripcion = "República Popular China" });
             paises.Add(new PaisModel { IdPais = 3, Descripcion = "Unión de Repúblicas Socialistas Soviéticas" });
+            */
+
+            // Crear petición
+            var mensajePeticionHttp = new HttpRequestMessage(
+                HttpMethod.Get,
+                "https://localhost:7253/api/empleado/GetPaises")
+            {
+                Headers =
+                {
+                    {"Accept", "application/json" },
+                    {"User-Agent", "HttpRequestsSample" }
+                }
+            };
+
+            // Crear cliente HTTP
+            var clienteHttp = _httpClientFactory.CreateClient();
+
+            // Realizar petición y almacenar respuesta
+            var mensajeRespuesta = await clienteHttp.SendAsync(mensajePeticionHttp);
+            List<PaisModel> paises = new List<PaisModel>();
+
+            // Desserialización   *- B E G I N S -*
+            if (mensajeRespuesta.IsSuccessStatusCode)
+            {
+                try
+                {
+                    string cadenaRespuesta = await mensajeRespuesta.Content.ReadFromJsonAsync<string>();
+
+                    if (!string.IsNullOrEmpty(cadenaRespuesta))
+                    {
+                        paises = JsonSerializer.Deserialize<List<PaisModel>>(cadenaRespuesta);
+
+                        if (paises == null || paises.Count == 0)
+                        {
+                            TempData["Message"] = "Deserialization returned null or empty list.";
+                        }
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    TempData["Message"] = "Error deserializing JSON: " + ex.Message;
+                    TempData["StackTrace"] = ex.StackTrace;
+                }
+            }
+            else
+            {
+                TempData["Message"] = "HTTP request failed with status code: " + mensajeRespuesta.StatusCode;
+            }
+
             return View(paises);
         }
 
@@ -143,11 +243,61 @@ namespace Front.Controllers
         // | DEPARTAMENTO |
         // *-*-*-*-*-*-*-*-
 
-        public IActionResult ListarDepartamentos()
+        public async Task<IActionResult> ListarDepartamentos()
         {
+            /*
             List<DepartamentoModel> departamentos = new List<DepartamentoModel>();
             departamentos.Add(new DepartamentoModel { IdDepartamento = 1, Descripcion = "La Matanza" });
             departamentos.Add(new DepartamentoModel { IdDepartamento = 2, Descripcion = "Esquel" });
+            */
+
+            // Crear petición
+            var mensajePeticionHttp = new HttpRequestMessage(
+                HttpMethod.Get,
+                "https://localhost:7253/api/empleado/GetDepartamentos")
+            {
+                Headers =
+                {
+                    {"Accept", "application/json" },
+                    {"User-Agent", "HttpRequestsSample" }
+                }
+            };
+
+            // Crear cliente HTTP
+            var clienteHttp = _httpClientFactory.CreateClient();
+
+            // Realizar petición y almacenar respuesta
+            var mensajeRespuesta = await clienteHttp.SendAsync(mensajePeticionHttp);
+            List<DepartamentoModel> departamentos = new List<DepartamentoModel>();
+
+            // Desserialización   *- B E G I N S -*
+            if (mensajeRespuesta.IsSuccessStatusCode)
+            {
+                try
+                {
+                    string cadenaRespuesta = await mensajeRespuesta.Content.ReadFromJsonAsync<string>();
+
+                    if (!string.IsNullOrEmpty(cadenaRespuesta))
+                    {
+                        departamentos = JsonSerializer.Deserialize<List<DepartamentoModel>>(cadenaRespuesta);
+
+                        if (departamentos == null || departamentos.Count == 0)
+                        {
+                            TempData["Message"] = "Deserialization returned null or empty list.";
+                        }
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    TempData["Message"] = "Error deserializing JSON: " + ex.Message;
+                    TempData["StackTrace"] = ex.StackTrace;
+                }
+            }
+            else
+            {
+                TempData["Message"] = "HTTP request failed with status code: " + mensajeRespuesta.StatusCode;
+            }
+
             return View(departamentos);
         }
     }
