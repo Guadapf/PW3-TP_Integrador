@@ -17,4 +17,7 @@ public class EmpleadoModel
     public int IdPais { get; set; }
 
     public int IdDepartamento { get; set; }
+    public string GeneroDescripcion { get; set; }
+    public string PaisDescripcion { get; set; }
+    public string DepartamentoDescripcion { get; set; }
 }

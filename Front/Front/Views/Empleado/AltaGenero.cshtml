@@ -7,6 +7,9 @@
         @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control", type = "text" })
     </div>
 
-    <button type="submit" class="btn btn-primary">Procesar</button>
+    <div class="container-fluid d-flex align-items-center">
+        <button type="submit" class="btn btn-primary" style="margin:0.5em;">Procesar</button>
+        <a asp-area="" asp-controller="Empleado" asp-action="ListarGeneros" class="btn btn-danger" style="margin:0.5em;">Cancelar</a>
+    </div>
 
 </form>
