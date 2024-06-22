@@ -21,6 +21,12 @@ builder.Services.AddTransient<IEmpleadoService, ServicioEmpleado>();
 builder.Services.AddTransient<IGeneroRepository, GeneroRepository>();
 builder.Services.AddTransient<IServicioGenero, ServicioGenero>();
 
+builder.Services.AddTransient<IPaiRepository, PaiRepository>();
+builder.Services.AddTransient<IServicioPai, ServicioPai>();
+
+builder.Services.AddTransient<IDepartamentoRepository, DepartamentoRepository>();
+builder.Services.AddTransient<IServicioDepartamento, ServicioDepartamento>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

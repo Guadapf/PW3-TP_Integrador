@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Entidades;
 
@@ -9,5 +10,6 @@ public partial class Pai
 
     public string? Descripcion { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<Empleado> Empleados { get; set; } = new List<Empleado>();
 }
