@@ -75,7 +75,7 @@ namespace ApiGateway.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("AltaEmpleado")]
         public async Task<IActionResult> CrearEmpleado([FromBody] JsonElement jsonElement)
         {
             // Serialize the received JSON payload back to a string
@@ -110,6 +110,37 @@ namespace ApiGateway.Controllers
 
         // Genero
 
+        [HttpPost("AltaGenero")]
+        public async Task<IActionResult> AltaGenero([FromBody] JsonElement jsonElement)
+        {
+            // Serialize the received JSON payload back to a string
+            var jsonString = jsonElement.GetRawText();
+
+            Console.WriteLine(jsonString);
+
+            // Create HTTP client and request
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/empleado")
+            {
+                Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
+            };
+
+            // Send the request
+            var response = await client.SendAsync(request);
+
+            // Get response content
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Content(content, "application/json");
+            }
+            else
+            {
+                return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+            }
+        }
+
         [HttpGet("GetGeneros")]
         public async Task<IActionResult> GetGeneros()
         {
@@ -142,6 +173,37 @@ namespace ApiGateway.Controllers
 
         // País
 
+        [HttpPost("AltaPais")]
+        public async Task<IActionResult> AltaPais([FromBody] JsonElement jsonElement)
+        {
+            // Serialize the received JSON payload back to a string
+            var jsonString = jsonElement.GetRawText();
+
+            Console.WriteLine(jsonString);
+
+            // Create HTTP client and request
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/empleado")
+            {
+                Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
+            };
+
+            // Send the request
+            var response = await client.SendAsync(request);
+
+            // Get response content
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Content(content, "application/json");
+            }
+            else
+            {
+                return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+            }
+        }
+
         [HttpGet("GetPaises")]
         public async Task<IActionResult> GetPaises()
         {
@@ -173,6 +235,37 @@ namespace ApiGateway.Controllers
         }
 
         // Departamento
+
+        [HttpPost("AltaDepartamento")]
+        public async Task<IActionResult> AltaDepartamento([FromBody] JsonElement jsonElement)
+        {
+            // Serialize the received JSON payload back to a string
+            var jsonString = jsonElement.GetRawText();
+
+            Console.WriteLine(jsonString);
+
+            // Create HTTP client and request
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/empleado")
+            {
+                Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
+            };
+
+            // Send the request
+            var response = await client.SendAsync(request);
+
+            // Get response content
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Content(content, "application/json");
+            }
+            else
+            {
+                return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+            }
+        }
 
         [HttpGet("GetDepartamentos")]
         public async Task<IActionResult> GetDepartamentos()

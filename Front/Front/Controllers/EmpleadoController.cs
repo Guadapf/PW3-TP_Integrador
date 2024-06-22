@@ -91,7 +91,7 @@ namespace Front.Controllers
             var contenido = new StringContent(jsonEmpleado, Encoding.UTF8, "application/json");
 
             var clienteHttp = _httpClientFactory.CreateClient();
-            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado")
+            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado/AltaEmpleado")
             {
                 Content = contenido
             };
@@ -129,7 +129,7 @@ namespace Front.Controllers
             var contenido = new StringContent(jsonEmpleado, Encoding.UTF8, "application/json");
 
             var clienteHttp = _httpClientFactory.CreateClient();
-            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado")
+            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado/AltaGenero")
             {
                 Content = contenido
             };
@@ -220,7 +220,7 @@ namespace Front.Controllers
             var contenido = new StringContent(jsonEmpleado, Encoding.UTF8, "application/json");
 
             var clienteHttp = _httpClientFactory.CreateClient();
-            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado")
+            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado/AltaPais")
             {
                 Content = contenido
             };
@@ -317,7 +317,7 @@ namespace Front.Controllers
             var contenido = new StringContent(jsonEmpleado, Encoding.UTF8, "application/json");
 
             var clienteHttp = _httpClientFactory.CreateClient();
-            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado")
+            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado/AltaDepartamento")
             {
                 Content = contenido
             };
