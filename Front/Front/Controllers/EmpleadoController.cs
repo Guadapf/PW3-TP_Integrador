@@ -1,5 +1,6 @@
 using Front.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
 using Servicio;
 using System.Diagnostics;
@@ -109,6 +110,45 @@ namespace Front.Controllers
             }
 
             return RedirectToAction("Details");
+        }
+
+        // *-*-*-*-*-
+        // | GÉNERO |
+        // *-*-*-*-*-
+
+        public IActionResult ListarGeneros()
+        {
+            List<GeneroModel> generos = new List<GeneroModel>();
+            generos.Add(new GeneroModel { IdGenero = 1, Descripcion = "Masculino" });
+            generos.Add(new GeneroModel { IdGenero = 2, Descripcion = "Femenino" });
+            generos.Add(new GeneroModel { IdGenero = 3, Descripcion = "Otro" });
+            generos.Add(new GeneroModel { IdGenero = 4, Descripcion = "más gei que eze (difícil)" });
+            return View(generos);
+        }
+
+        // *-*-*-*-
+        // | PAÍS |
+        // *-*-*-*-
+
+        public IActionResult ListarPaises()
+        {
+            List<PaisModel> paises = new List<PaisModel>();
+            paises.Add(new PaisModel { IdPais = 1, Descripcion = "Argentina (namber uan)" });
+            paises.Add(new PaisModel { IdPais = 2, Descripcion = "República Popular China" });
+            paises.Add(new PaisModel { IdPais = 3, Descripcion = "Unión de Repúblicas Socialistas Soviéticas" });
+            return View(paises);
+        }
+
+        // *-*-*-*-*-*-*-*-
+        // | DEPARTAMENTO |
+        // *-*-*-*-*-*-*-*-
+
+        public IActionResult ListarDepartamentos()
+        {
+            List<DepartamentoModel> departamentos = new List<DepartamentoModel>();
+            departamentos.Add(new DepartamentoModel { IdDepartamento = 1, Descripcion = "La Matanza" });
+            departamentos.Add(new DepartamentoModel { IdDepartamento = 2, Descripcion = "Esquel" });
+            return View(departamentos);
         }
     }
 
