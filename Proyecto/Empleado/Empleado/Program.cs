@@ -16,7 +16,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IEmpleadoRepository, EmpleadoRepository>();
-builder.Services.AddTransient<IEmpleadoService, ServicioEmpleado>(); 
+builder.Services.AddTransient<IEmpleadoService, ServicioEmpleado>();
+
+builder.Services.AddTransient<IGeneroRepository, GeneroRepository>();
+builder.Services.AddTransient<IServicioGenero, ServicioGenero>();
 
 var app = builder.Build();
 
