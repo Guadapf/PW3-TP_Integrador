@@ -1,0 +1,12 @@
+﻿@model AltaPaisModel
+
+<form action="/Empleado/AltaPais" method="post">
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Descripcion)
+        @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control", type = "text" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Procesar</button>
+
+</form>

@@ -90,8 +90,6 @@ namespace Front.Controllers
             var jsonEmpleado = JsonSerializer.Serialize(modelo);
             var contenido = new StringContent(jsonEmpleado, Encoding.UTF8, "application/json");
 
-            Console.WriteLine(jsonEmpleado);
-
             var clienteHttp = _httpClientFactory.CreateClient();
             var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado")
             {
@@ -116,15 +114,42 @@ namespace Front.Controllers
         // | GÉNERO |
         // *-*-*-*-*-
 
+        public IActionResult AltaGenero()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AltaGenero(AltaGeneroModel modelo)
+        {
+            if (!ModelState.IsValid)
+                return View(modelo);
+
+            var jsonEmpleado = JsonSerializer.Serialize(modelo);
+            var contenido = new StringContent(jsonEmpleado, Encoding.UTF8, "application/json");
+
+            var clienteHttp = _httpClientFactory.CreateClient();
+            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado")
+            {
+                Content = contenido
+            };
+
+            var mensajeRespuesta = await clienteHttp.SendAsync(mensajePeticionHttp);
+
+            if (mensajeRespuesta.IsSuccessStatusCode)
+            {
+                TempData["Message"] = "Empleado created successfully!";
+            }
+            else
+            {
+                TempData["StackTrace"] = "HTTP request failed with status code: " + mensajeRespuesta.StatusCode;
+            }
+
+            return RedirectToAction("ListarGeneros");
+        }
+
         public async Task<IActionResult> ListarGeneros()
         {
-            /*
-            List<GeneroModel> generos = new List<GeneroModel>();
-            generos.Add(new GeneroModel { IdGenero = 1, Descripcion = "Masculino" });
-            generos.Add(new GeneroModel { IdGenero = 2, Descripcion = "Femenino" });
-            generos.Add(new GeneroModel { IdGenero = 3, Descripcion = "Otro" });
-            generos.Add(new GeneroModel { IdGenero = 4, Descripcion = "más gei que eze (difícil)" });
-            */
 
             // Crear petición
             var mensajePeticionHttp = new HttpRequestMessage(
@@ -179,6 +204,40 @@ namespace Front.Controllers
         // *-*-*-*-
         // | PAÍS |
         // *-*-*-*-
+
+        public IActionResult AltaPais()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AltaPais(AltaPaisModel modelo)
+        {
+            if (!ModelState.IsValid)
+                return View(modelo);
+
+            var jsonEmpleado = JsonSerializer.Serialize(modelo);
+            var contenido = new StringContent(jsonEmpleado, Encoding.UTF8, "application/json");
+
+            var clienteHttp = _httpClientFactory.CreateClient();
+            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado")
+            {
+                Content = contenido
+            };
+
+            var mensajeRespuesta = await clienteHttp.SendAsync(mensajePeticionHttp);
+
+            if (mensajeRespuesta.IsSuccessStatusCode)
+            {
+                TempData["Message"] = "Empleado created successfully!";
+            }
+            else
+            {
+                TempData["StackTrace"] = "HTTP request failed with status code: " + mensajeRespuesta.StatusCode;
+            }
+
+            return RedirectToAction("ListarPaises");
+        }
 
         public async Task<IActionResult> ListarPaises()
         {
@@ -242,6 +301,40 @@ namespace Front.Controllers
         // *-*-*-*-*-*-*-*-
         // | DEPARTAMENTO |
         // *-*-*-*-*-*-*-*-
+
+        public IActionResult AltaDepartamento()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AltaDepartamento(AltaDepartamentoModel modelo)
+        {
+            if (!ModelState.IsValid)
+                return View(modelo);
+
+            var jsonEmpleado = JsonSerializer.Serialize(modelo);
+            var contenido = new StringContent(jsonEmpleado, Encoding.UTF8, "application/json");
+
+            var clienteHttp = _httpClientFactory.CreateClient();
+            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7253/api/empleado")
+            {
+                Content = contenido
+            };
+
+            var mensajeRespuesta = await clienteHttp.SendAsync(mensajePeticionHttp);
+
+            if (mensajeRespuesta.IsSuccessStatusCode)
+            {
+                TempData["Message"] = "Empleado created successfully!";
+            }
+            else
+            {
+                TempData["StackTrace"] = "HTTP request failed with status code: " + mensajeRespuesta.StatusCode;
+            }
+
+            return RedirectToAction("ListarDepartamentos");
+        }
 
         public async Task<IActionResult> ListarDepartamentos()
         {
