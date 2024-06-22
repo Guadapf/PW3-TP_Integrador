@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Entidades;
+using Microsoft.AspNetCore.Mvc;
 using Servicio;
+using System.Text.Json;
 
 namespace EmployeeService.Controllers;
 
@@ -12,6 +14,27 @@ public class PaiController : ControllerBase
     public PaiController(IServicioPai paiService)
     {
         _paiService = paiService;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CargarPais([FromBody] JsonElement jsonElement)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            Pai pais = JsonSerializer.Deserialize<Pai>(jsonElement);
+            await _paiService.cargarPai(pais);
+            return Ok(new { Message = "País agregado correctamente." });
+        }
+        catch (Exception ex)
+        {
+            var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "Detalles no disponibles.";
+            return StatusCode(500, $"Error interno del servidor: {innerExceptionMessage}");
+        }
     }
 
     [HttpGet("GetPaises")]

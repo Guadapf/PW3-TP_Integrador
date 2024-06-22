@@ -5,6 +5,7 @@ namespace Repositorio;
 
 public interface IGeneroRepository
 {
+    Task AddGenero(Genero genero);
     Task<List<Genero>> GetGeneros();
 }
 
@@ -15,6 +16,12 @@ public class GeneroRepository : IGeneroRepository
     public GeneroRepository(EmpleadoContext empleadoContext)
     {
         _ctx = empleadoContext;
+    }
+
+    public async Task AddGenero(Genero genero)
+    {
+        await _ctx.AddAsync(genero);
+        await _ctx.SaveChangesAsync();
     }
 
     public async Task<List<Genero>> GetGeneros()

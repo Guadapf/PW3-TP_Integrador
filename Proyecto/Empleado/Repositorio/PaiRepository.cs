@@ -5,6 +5,7 @@ namespace Repositorio;
 
 public interface IPaiRepository
 {
+    Task AddPai(Pai pais);
     Task<List<Pai>> GetPaises();
 }
 
@@ -15,6 +16,12 @@ public class PaiRepository : IPaiRepository
     public PaiRepository(EmpleadoContext empleadoContext)
     {
         _ctx = empleadoContext;
+    }
+
+    public async Task AddPai(Pai pais)
+    {
+        await _ctx.AddAsync(pais);
+        await _ctx.SaveChangesAsync();
     }
 
     public async Task<List<Pai>> GetPaises()

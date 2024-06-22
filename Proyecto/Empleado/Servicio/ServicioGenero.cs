@@ -1,11 +1,13 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.Json;
 using Repositorio;
+using Entidades;
 
 namespace Servicio;
 
 public interface IServicioGenero
 {
+    Task cargarGenero(Genero genero);
     Task<string> ObtenerGeneros();
 }
 
@@ -16,6 +18,11 @@ public class ServicioGenero : IServicioGenero
     public ServicioGenero(IGeneroRepository generoRepository)
     {
         _generoRepository = generoRepository;
+    }
+
+    public async Task cargarGenero(Genero genero)
+    {
+        await _generoRepository.AddGenero(genero);
     }
 
     public async Task<string> ObtenerGeneros()

@@ -1,11 +1,13 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Entidades;
 using Repositorio;
 
 namespace Servicio;
 
 public interface IServicioDepartamento
 {
+    Task cargarDepartamento(Departamento departamento);
     Task<string> ObtenerDepartamentos();
 }
 
@@ -16,6 +18,11 @@ public class ServicioDepartamento : IServicioDepartamento
     public ServicioDepartamento(IDepartamentoRepository departamentoRepository)
     {
         _departamentoRepository = departamentoRepository;
+    }
+
+    public async Task cargarDepartamento(Departamento departamento)
+    {
+        await _departamentoRepository.AddDepartamento(departamento);
     }
 
     public async Task<string> ObtenerDepartamentos()

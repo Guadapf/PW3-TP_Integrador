@@ -1,11 +1,13 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Entidades;
 using Repositorio;
 
 namespace Servicio;
 
 public interface IServicioPai
 {
+    Task cargarPai(Pai pais);
     Task<string> ObtenerPaises();
 }
 
@@ -16,6 +18,11 @@ public class ServicioPai : IServicioPai
     public ServicioPai(IPaiRepository paiRepository)
     {
         _paiRepository = paiRepository;
+    }
+
+    public async Task cargarPai(Pai pais)
+    {
+        await _paiRepository.AddPai(pais);
     }
 
     public async Task<string> ObtenerPaises()

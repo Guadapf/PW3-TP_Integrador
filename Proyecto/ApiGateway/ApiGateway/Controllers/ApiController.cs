@@ -120,7 +120,7 @@ namespace ApiGateway.Controllers
 
             // Create HTTP client and request
             var client = _httpClient.CreateClient();
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/empleado")
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/genero")
             {
                 Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
             };
@@ -183,7 +183,7 @@ namespace ApiGateway.Controllers
 
             // Create HTTP client and request
             var client = _httpClient.CreateClient();
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/empleado")
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/pai")
             {
                 Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
             };
@@ -246,7 +246,7 @@ namespace ApiGateway.Controllers
 
             // Create HTTP client and request
             var client = _httpClient.CreateClient();
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/empleado")
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/departamento")
             {
                 Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
             };

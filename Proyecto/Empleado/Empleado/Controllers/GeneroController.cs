@@ -16,6 +16,27 @@ public class GeneroController : ControllerBase
         _generoService = generoService;
     }
 
+    [HttpPost]
+    public async Task<IActionResult> CargarGenero([FromBody] JsonElement jsonElement)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            Genero genero = JsonSerializer.Deserialize<Genero>(jsonElement);
+            await _generoService.cargarGenero(genero);
+            return Ok(new { Message = "Género agregado correctamente." });
+        }
+        catch (Exception ex)
+        {
+            var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "Detalles no disponibles.";
+            return StatusCode(500, $"Error interno del servidor: {innerExceptionMessage}");
+        }
+    }
+
     [HttpGet("GetGeneros")]
     public async Task<IActionResult> GetGeneros()
     {
