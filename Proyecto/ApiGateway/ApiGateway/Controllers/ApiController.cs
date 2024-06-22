@@ -107,5 +107,101 @@ namespace ApiGateway.Controllers
         }
 
         // Otros métodos para CRUD de Empleados
+
+        // Genero
+
+        [HttpGet("GetGeneros")]
+        public async Task<IActionResult> GetGeneros()
+        {
+            var httpRequestMessage = new HttpRequestMessage(
+                HttpMethod.Get,
+                "https://localhost:7252/api/genero/GetGeneros")
+            {
+                Headers =
+                {
+                    {"Accept", "application/json" },
+                    {"User-Agent", "HttpRequestsSample" }
+                }
+            };
+
+            var myClientINC = _httpClient.CreateClient();
+            var response = await myClientINC.SendAsync(httpRequestMessage);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Content(content, "application/json");
+            }
+            else
+            {
+                return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+            }
+
+        }
+
+        // País
+
+        [HttpGet("GetPaises")]
+        public async Task<IActionResult> GetPaises()
+        {
+            var httpRequestMessage = new HttpRequestMessage(
+                HttpMethod.Get,
+                "https://localhost:7252/api/pai/GetPaises")
+            {
+                Headers =
+                {
+                    {"Accept", "application/json" },
+                    {"User-Agent", "HttpRequestsSample" }
+                }
+            };
+
+            var myClientINC = _httpClient.CreateClient();
+            var response = await myClientINC.SendAsync(httpRequestMessage);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Content(content, "application/json");
+            }
+            else
+            {
+                return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+            }
+
+        }
+
+        // Departamento
+
+        [HttpGet("GetDepartamentos")]
+        public async Task<IActionResult> GetDepartamentos()
+        {
+            var httpRequestMessage = new HttpRequestMessage(
+                HttpMethod.Get,
+                "https://localhost:7252/api/departamento/GetDepartamentos")
+            {
+                Headers =
+                {
+                    {"Accept", "application/json" },
+                    {"User-Agent", "HttpRequestsSample" }
+                }
+            };
+
+            var myClientINC = _httpClient.CreateClient();
+            var response = await myClientINC.SendAsync(httpRequestMessage);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Content(content, "application/json");
+            }
+            else
+            {
+                return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+            }
+
+        }
     }
 }
