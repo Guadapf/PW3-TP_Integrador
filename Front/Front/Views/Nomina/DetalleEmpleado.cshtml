@@ -1,0 +1,110 @@
+﻿@model BusquedaModel
+
+<div class="container-fluid d-flex justify-content-between align-items-center">
+    <a asp-area="" asp-controller="Nomina" asp-action="Index" class="bg-dark rounded" style="color:white;text-decoration:none;padding:0.5em;">
+        <img src="~/arrow-left-solid.svg" class="m-1" style="width: 1.1em;">
+    </a>
+
+    <form action="/Nomina/DetalleEmpleado" method="post" class="d-flex">
+
+        <div class="form-group d-flex align-items-center me-2">
+            @Html.TextBoxFor(model => model.TextoBusqueda, new { @class = "form-control", type = "text", placeholder = "Buscar..." })
+        </div>
+
+        <button type="submit" class="bg-dark rounded d-inline-flex justify-content-around align-items-center">
+            <img src="~/magnifying-glass-solid.svg" class="m-1" style="width: 1.1em;">
+        </button>
+
+    </form>
+</div>
+
+@if (ViewBag.Empleado != null)
+{
+    <div class="container my-4">
+        <div class="row mb-3">
+            <div class="col text-center">
+                <h2>@(ViewBag.Empleado.Nombre + " " + ViewBag.Empleado.Apellido)</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="~/user-tie-solid.svg" class="img-fluid rounded" style="max-width: 10em;">
+            </div>
+            <div class="col-md-8">
+                <div class="container">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong>País:</strong> @(ViewBag.Empleado.PaisDescripcion)
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong>Departamento:</strong> @(ViewBag.Empleado.DepartamentoDescripcion)
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong>Edad:</strong> @(ViewBag.Empleado.Edad)
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong>Antigüedad:</strong> @(ViewBag.Empleado.Antiguedad)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>Género:</strong> @(ViewBag.Empleado.GeneroDescripcion)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-4">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <div class="p-3 border rounded">
+                    <div class="mb-2">
+                        <strong>Base:</strong> @($"${ViewBag.Empleado.Base}")
+                    </div>
+                    <div>
+                        <strong>Subtotal:</strong> $700,000.00
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3 border rounded">
+                    <div class="mb-2">
+                        <strong>Compensación:</strong> @($"*{ViewBag.Empleado.Base}")
+                    </div>
+                    <div>
+                        <strong>Subtotal:</strong> $875,000.00
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3 border rounded">
+                    <div class="mb-2">
+                        <strong>Bono:</strong> @($"+${ViewBag.Empleado.Base}")
+                    </div>
+                    <div>
+                        <strong>Subtotal:</strong> $925,000.00
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3 border rounded">
+                    <div class="mb-2">
+                        <strong>Total:</strong>
+                    </div>
+                    <div>
+                        @($"${ViewBag.Empleado.Total}")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
