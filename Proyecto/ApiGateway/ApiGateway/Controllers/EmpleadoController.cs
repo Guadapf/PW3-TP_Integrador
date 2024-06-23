@@ -106,7 +106,57 @@ namespace ApiGateway.Controllers
             }
         }
 
-        // Otros métodos para CRUD de Empleados
+        [HttpPut]
+        public async Task<IActionResult> ModificarEmpleado([FromBody] JsonElement jsonElement)
+        {
+            var jsonString = jsonElement.GetRawText();
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Put, "https://localhost:7252/api/empleado")
+            {
+                Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
+            };
+
+            var response = await client.SendAsync(request);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Content(content, "application/json");
+            }
+            else
+            {
+                return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> EliminarEmpleado(int id)
+        {
+            var httpRequestMessage = new HttpRequestMessage(
+                HttpMethod.Delete,
+                $"https://localhost:7252/api/Empleado/Eliminar/{id}")
+            {
+                Headers =
+                {
+                    {"Accept", "application/json" },
+                    {"User-Agent", "HttpRequestsSample" }
+                }
+            };
+
+            var myClientINC = _httpClient.CreateClient();
+            var response = await myClientINC.SendAsync(httpRequestMessage);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Content(content, "application/json");
+            }
+            else
+            {
+                return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+            }
+        }
 
         // Genero
 
