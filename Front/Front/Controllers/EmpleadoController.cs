@@ -47,6 +47,16 @@ public class EmpleadoController : Controller
             empleado.GeneroDescripcion = generos.FirstOrDefault(g => g.IdGenero == empleado.IdGenero)?.Descripcion;
             empleado.PaisDescripcion = paises.FirstOrDefault(p => p.IdPais == empleado.IdPais)?.Descripcion;
             empleado.DepartamentoDescripcion = departamentos.FirstOrDefault(d => d.IdDepartamento == empleado.IdDepartamento)?.Descripcion;
+
+            try
+            {
+                empleado.Salario = await ObtenerSalarioEmpleado(clienteHttp, empleado.IdPais, empleado.IdDepartamento, empleado.FechaIngreso);
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = $"Error al obtener el salario del empleado {empleado.Nombre} {empleado.Apellido}: {ex.Message}";
+                empleado.Salario = 0; 
+            }
         }
 
         return View(empleados);
@@ -97,6 +107,27 @@ public class EmpleadoController : Controller
 
         return RedirectToAction("Details");
     }
+
+    private async Task<decimal> ObtenerSalarioEmpleado(HttpClient clienteHttp, int idPais, int idDepartamento, DateOnly fechaIngreso)
+    {
+        try
+        {
+            var response = await clienteHttp.GetAsync($"https://localhost:7253/api/nomina/?idPais={idPais}&idDepartamento={idDepartamento}&fechaIngreso={fechaIngreso:yyyy-MM-dd}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var salario = await response.Content.ReadFromJsonAsync<decimal>();
+                return Math.Round(salario, 2);
+            }
+
+            throw new Exception($"Error al obtener el salario: {response.ReasonPhrase}");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Exception al obtener el salario del empleado: {ex.Message}");
+        }
+    }
+
 
     // *-*-*-*-*-
     // | GÉNERO |
