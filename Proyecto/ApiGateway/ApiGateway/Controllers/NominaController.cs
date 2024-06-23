@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 
 namespace ApiGateway.Controllers;
 
@@ -17,30 +18,32 @@ public class NominaController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> CalcularSalario(int idPais, int idDepartamento, DateOnly fechaIngreso)
     {
-        var httpRequestMessage = new HttpRequestMessage(
+        try
+        {
+            var httpRequestMessage = new HttpRequestMessage(
                 HttpMethod.Get,
-                "https://localhost:7254/api/nomina/CalcularSalario?IdPais=idPais&IdDepartamento=idDepartamento&FechaIngreso=fechaIngreso")
-        {
-            Headers =
-                {
-                    {"Accept", "application/json" },
-                    {"User-Agent", "HttpRequestsSample" }
-                }
-        };
+                $"https://localhost:7254/CalcularSalario?idPais={idPais}&idDepartamento={idDepartamento}&fechaIngreso={fechaIngreso:yyyy-MM-dd}");
 
-        var myClientINC = _httpClientFactory.CreateClient();
-        var response = myClientINC.Send(httpRequestMessage);
+            httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-        var content = await response.Content.ReadAsStringAsync();
+            var myClientINC = _httpClientFactory.CreateClient();
+            var response = await myClientINC.SendAsync(httpRequestMessage);
 
-        if (response.IsSuccessStatusCode)
-        {
-            return Content(content, "application/json");
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Content(content, "application/json");
+            }
+            else
+            {
+                return StatusCode((int)response.StatusCode, "Error al llamar al servicio de salario base.");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+            return StatusCode(500, $"Ocurrió un error al calcular el salario. Por favor, inténtelo de nuevo más tarde: {ex.Message}");
         }
-
     }
+
 }
