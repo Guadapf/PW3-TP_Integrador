@@ -116,8 +116,15 @@ public class EmpleadoController : Controller
 
             if (response.IsSuccessStatusCode)
             {
-                var salario = await response.Content.ReadFromJsonAsync<decimal>();
-                return Math.Round(salario, 2);
+                var content = await response.Content.ReadFromJsonAsync<string>();
+                var salarioResponse = JsonSerializer.Deserialize<SalarioModel>(content);
+
+                if (salarioResponse != null)
+                {
+                    return Math.Round(salarioResponse.SalarioTotal, 2);
+                }
+
+                throw new Exception("Error al deserializar la respuesta.");
             }
 
             throw new Exception($"Error al obtener el salario: {response.ReasonPhrase}");
