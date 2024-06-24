@@ -13,6 +13,7 @@ public interface IEmpleadoService
     Task ActualizarEmpleado(Empleado empleado);
     Task EliminarEmpleado(int idEmpleado);
     Task<string> ObtenerEmpleadoPorId(int idEmpleado);
+    Task<string> ObtenerEmpleadosPorParam(string busqueda);
 }
 
 public class ServicioEmpleado : IEmpleadoService
@@ -45,6 +46,18 @@ public class ServicioEmpleado : IEmpleadoService
             ReferenceHandler = ReferenceHandler.IgnoreCycles
         };
         string jsonString = JsonSerializer.Serialize(empleado, opciones);
+        return jsonString;
+    }
+
+    public async Task<string> ObtenerEmpleadosPorParam(string busqueda)
+    {
+        var empleados = await _empleadoRepository.GetEmpleadosByParam(busqueda);
+        var opciones = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            ReferenceHandler = ReferenceHandler.IgnoreCycles
+        };
+        string jsonString = JsonSerializer.Serialize(empleados, opciones);
         return jsonString;
     }
 

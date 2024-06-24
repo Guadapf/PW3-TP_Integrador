@@ -15,6 +15,7 @@ public interface IEmpleadoRepository
     Task DeleteEmpleado(int idEmpleado);
     Task<Empleado> GetEmpleadoById(int idEmpleado);
     Task<List<Empleado>> GetEmpleados();
+    Task<List<Empleado>> GetEmpleadosByParam(string busqueda);
 }
 public class EmpleadoRepository : IEmpleadoRepository
 {
@@ -80,6 +81,37 @@ public class EmpleadoRepository : IEmpleadoRepository
                          PaisDescripcion = e.IdPaisNavigation.Descripcion
                      })
                      .FirstOrDefaultAsync(e => e.IdEmpleado == idEmpleado);
+    }
+
+    public async Task<List<Empleado>> GetEmpleadosByParam(string busqueda)
+    {
+        var minBusqueda = busqueda.ToLower();
+
+        return await _ctx.Empleados
+                     .Include(e => e.IdDepartamentoNavigation)
+                     .Include(e => e.IdGeneroNavigation)
+                     .Include(e => e.IdPaisNavigation)
+                     .Where(e =>
+                        e.Nombre.ToLower().Contains(minBusqueda) ||
+                        e.Apellido.ToLower().Contains(minBusqueda) ||
+                        e.IdDepartamentoNavigation.Descripcion.ToLower().Contains(minBusqueda) ||
+                        e.IdGeneroNavigation.Descripcion.ToLower().Contains(minBusqueda) ||
+                        e.IdPaisNavigation.Descripcion.ToLower().Contains(minBusqueda))
+                     .Select(e => new Empleado
+                     {
+                         IdEmpleado = e.IdEmpleado,
+                         Nombre = e.Nombre,
+                         Apellido = e.Apellido,
+                         FechaNac = e.FechaNac,
+                         FechaIngreso = e.FechaIngreso,
+                         IdGenero = e.IdGenero,
+                         IdPais = e.IdPais,
+                         IdDepartamento = e.IdDepartamento,
+                         DepartamentoDescripcion = e.IdDepartamentoNavigation.Descripcion,
+                         GeneroDescripcion = e.IdGeneroNavigation.Descripcion,
+                         PaisDescripcion = e.IdPaisNavigation.Descripcion
+                     })
+                     .ToListAsync();
     }
 
     public async Task<List<Empleado>> GetEmpleados()

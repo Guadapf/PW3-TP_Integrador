@@ -32,6 +32,20 @@ public class EmpleadoController : ControllerBase
             
         }
 
+        [HttpGet("GetEmpleados/{busqueda}")]
+        public async Task<IActionResult> GetEmpleado(string busqueda)
+        {
+            try
+            {
+                var empleados = await _empleadoService.ObtenerEmpleadosPorParam(busqueda);
+                return Ok(empleados);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
+            }
+        }
+
         [HttpGet("GetEmpleado/{id}")]
         public async Task<IActionResult> GetEmpleado(int id)
         {

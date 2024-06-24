@@ -28,11 +28,30 @@ public class EmpleadoController : Controller
         return View();
     }
 
+    [HttpGet("/Empleado/Details")]
     public async Task<IActionResult> Details()
     {
         var clienteHttp = _httpClientFactory.CreateClient();
         List<EmpleadoModel> empleados = await ListarModelo<EmpleadoModel>(clienteHttp, "https://localhost:7253/api/empleado/GetEmpleados");
 
+        empleados = await PoblarCamposEmpleado(clienteHttp, empleados);
+
+        return View(empleados);
+    }
+
+    [HttpGet("/Empleado/BuscarEmpleado")]
+    public async Task<IActionResult> BuscarEmpleado(string busqueda)
+    {
+        var clienteHttp = _httpClientFactory.CreateClient();
+        List<EmpleadoModel> empleados = await ListarModelo<EmpleadoModel>(clienteHttp, $"https://localhost:7253/api/empleado/GetEmpleados/{busqueda}");
+
+        empleados = await PoblarCamposEmpleado(clienteHttp, empleados);
+
+        return View("Details", empleados);
+    }
+    
+    private async Task<List<EmpleadoModel>> PoblarCamposEmpleado(HttpClient clienteHttp, List<EmpleadoModel> empleados)
+    {
         var generosTask = ListarModelo<GeneroModel>(clienteHttp, "https://localhost:7253/api/empleado/GetGeneros");
         var paisesTask = ListarModelo<PaisModel>(clienteHttp, "https://localhost:7253/api/empleado/GetPaises");
         var departamentosTask = ListarModelo<DepartamentoModel>(clienteHttp, "https://localhost:7253/api/empleado/GetDepartamentos");
@@ -60,9 +79,9 @@ public class EmpleadoController : Controller
             }
         }
 
-        return View(empleados);
+        return empleados;
     }
-
+    
     public async Task<IActionResult> CrearEmpleado()
     {
         var clienteHttp = _httpClientFactory.CreateClient();
@@ -186,7 +205,6 @@ public class EmpleadoController : Controller
         return RedirectToAction("Details");
     }
 
-
     private async Task<decimal> ObtenerSalarioEmpleado(HttpClient clienteHttp, int idPais, int idDepartamento, DateOnly fechaIngreso)
     {
         try
@@ -213,8 +231,6 @@ public class EmpleadoController : Controller
             throw new Exception($"Exception al obtener el salario del empleado: {ex.Message}");
         }
     }
-
-
 
     private async Task<List<T>> ListarModelo<T>(HttpClient client, string url)
     {
