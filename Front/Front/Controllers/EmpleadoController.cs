@@ -205,6 +205,29 @@ public class EmpleadoController : Controller
         return RedirectToAction("Details");
     }
 
+    [HttpPost]
+    public async Task<IActionResult> EliminarEmpleado(int id)
+    {
+        try
+        {
+            var clienteHttp = _httpClientFactory.CreateClient();
+            var response = await clienteHttp.DeleteAsync($"https://localhost:7253/api/empleado/EliminarEmpleado/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["Message"] = "¡Empleado eliminado con éxito!";
+            }else
+            {
+                TempData["StackTrace"] = $"Error en la petición HTTP con el código: {response.StatusCode}.";
+            }
+        }
+        catch (Exception ex)
+        {
+            TempData["StackTrace"] = $"Error al intentar eliminar el empleado: {ex.Message}";
+        }
+
+        return RedirectToAction("Details");
+
+    }
     private async Task<decimal> ObtenerSalarioEmpleado(HttpClient clienteHttp, int idPais, int idDepartamento, DateOnly fechaIngreso)
     {
         try
