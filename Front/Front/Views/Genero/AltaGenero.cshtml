@@ -1,6 +1,6 @@
-﻿@model AltaPaisModel
+﻿@model AltaGeneroModel
 
-<form action="/Empleado/AltaPais" method="post">
+<form action="/Empleado/AltaGenero" method="post">
 
     <div class="form-group">
         @Html.LabelFor(model => model.Descripcion)
@@ -9,7 +9,7 @@
 
     <div class="container-fluid d-flex align-items-center">
         <button type="submit" class="btn btn-primary" style="margin:0.5em;">Procesar</button>
-        <a asp-area="" asp-controller="Empleado" asp-action="ListarPaises" class="btn btn-danger" style="margin:0.5em;">Cancelar</a>
+        <a asp-area="" asp-controller="Genero" asp-action="ListarGeneros" class="btn btn-danger" style="margin:0.5em;">Cancelar</a>
     </div>
 
 </form>
