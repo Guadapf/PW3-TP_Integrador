@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Servicio;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 
@@ -55,7 +56,7 @@ public class EmpleadoController : Controller
             catch (Exception ex)
             {
                 TempData["Message"] = $"Error al obtener el salario del empleado {empleado.Nombre} {empleado.Apellido}: {ex.Message}";
-                empleado.Salario = 0; 
+                empleado.Salario = 0;
             }
         }
 
@@ -107,6 +108,84 @@ public class EmpleadoController : Controller
 
         return RedirectToAction("Details");
     }
+
+    public async Task<IActionResult> ActualizarEmpleado(int id)
+    {
+        var clienteHttp = _httpClientFactory.CreateClient();
+
+        var empleadoResponse = await clienteHttp.GetAsync($"https://localhost:7253/api/empleado/GetEmpleado/{id}");
+        if (!empleadoResponse.IsSuccessStatusCode)
+        {
+            TempData["ErrorMessage"] = $"Error al obtener los detalles del empleado. Código: {empleadoResponse.StatusCode}";
+            return RedirectToAction("Details");
+        }
+
+        string cadenaRespuesta = await empleadoResponse.Content.ReadFromJsonAsync<string>();
+
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true 
+        };
+
+        try
+        {
+            var empleado = JsonSerializer.Deserialize<ActualizarEmpleadoModel>(cadenaRespuesta, options);
+
+            var generosTask = ListarModelo<GeneroModel>(clienteHttp, "https://localhost:7253/api/empleado/GetGeneros");
+            var paisesTask = ListarModelo<PaisModel>(clienteHttp, "https://localhost:7253/api/empleado/GetPaises");
+            var departamentosTask = ListarModelo<DepartamentoModel>(clienteHttp, "https://localhost:7253/api/empleado/GetDepartamentos");
+
+            await Task.WhenAll(generosTask, paisesTask, departamentosTask);
+
+            ViewBag.generos = new SelectList(await generosTask, "IdGenero", "Descripcion", empleado.IdGenero);
+            ViewBag.paises = new SelectList(await paisesTask, "IdPais", "Descripcion", empleado.IdPais);
+            ViewBag.departamentos = new SelectList(await departamentosTask, "IdDepartamento", "Descripcion", empleado.IdDepartamento);
+
+            return View(empleado);
+        }
+        catch (JsonException ex)
+        {
+            TempData["ErrorMessage"] = $"Error al deserializar los detalles del empleado: {ex.Message}";
+            return RedirectToAction("Details");
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ActualizarEmpleado(ActualizarEmpleadoModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        try
+        {
+            var jsonEmpleado = JsonSerializer.Serialize(model);
+            var contenido = new StringContent(jsonEmpleado, Encoding.UTF8, "application/json");
+
+            var clienteHttp = _httpClientFactory.CreateClient();
+            var mensajePeticionHttp = new HttpRequestMessage(HttpMethod.Put, "https://localhost:7253/api/empleado")
+            {
+                Content = contenido
+            };
+
+            var mensajeRespuesta = await clienteHttp.SendAsync(mensajePeticionHttp);
+
+            if (mensajeRespuesta.IsSuccessStatusCode)
+            {
+                TempData["Message"] = "¡Empleado actualizado con éxito!";
+            }
+            else
+            {
+                TempData["StackTrace"] = $"Error en la petición HTTP con el código: {mensajeRespuesta.StatusCode}. Detalles: {await mensajeRespuesta.Content.ReadAsStringAsync()}";
+            }
+        }
+        catch (Exception ex)
+        {
+            TempData["StackTrace"] = $"Excepción durante la actualización del empleado: {ex.Message}";
+        }
+
+        return RedirectToAction("Details");
+    }
+
 
     private async Task<decimal> ObtenerSalarioEmpleado(HttpClient clienteHttp, int idPais, int idDepartamento, DateOnly fechaIngreso)
     {

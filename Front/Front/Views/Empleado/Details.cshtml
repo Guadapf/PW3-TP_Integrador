@@ -24,6 +24,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Fecha de Nacimiento</th>
@@ -38,6 +39,9 @@
         @foreach (var empleado in Model)
         {
             <tr>
+                <td>
+                    <a asp-controller="Empleado" asp-action="ActualizarEmpleado" asp-route-id="@empleado.IdEmpleado" class="btn btn-info d-flex align-items-center justify-content-center w-auto"><img src="~/pencil-square.svg" /></a>
+                </td>
                 <td>@empleado.Nombre</td>
                 <td>@empleado.Apellido</td>
                 <td>@empleado.FechaNac</td>
