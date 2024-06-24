@@ -20,4 +20,6 @@ public class EmpleadoModel
     public string GeneroDescripcion { get; set; }
     public string PaisDescripcion { get; set; }
     public string DepartamentoDescripcion { get; set; }
+
+    public decimal Salario { get; set; }
 }
