@@ -129,7 +129,7 @@ namespace ApiGateway.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("EliminarEmpleado/{id}")]
         public async Task<IActionResult> EliminarEmpleado(int id)
         {
             var httpRequestMessage = new HttpRequestMessage(

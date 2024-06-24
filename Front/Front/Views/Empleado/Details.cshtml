@@ -33,6 +33,7 @@
             <th>País</th>
             <th>Departamento</th>
             <th>Salario</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -50,6 +51,11 @@
                 <td>@empleado.PaisDescripcion</td>
                 <td>@empleado.DepartamentoDescripcion</td>
                 <td>$ @empleado.Salario</td>
+                <td>
+                    <form asp-action="EliminarEmpleado" asp-route-id="@empleado.IdEmpleado" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">
+                        <button type="submit" class="btn btn-danger"><img src="~/trash3-fill.svg" /></button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
