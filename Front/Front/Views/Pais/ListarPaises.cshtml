@@ -1,4 +1,4 @@
-﻿@model List<Front.Models.GeneroModel>
+﻿@model List<Front.Models.PaisModel>
 
 @if (TempData["Message"] != null)
 {
@@ -16,7 +16,7 @@
 
 <div class="container-fluid d-flex justify-content-between align-items-center">
     <a asp-area="" asp-controller="Empleado" asp-action="Index" class="bg-dark rounded" style="color:white;text-decoration:none;padding:0.5em;">Volver</a>
-    <a asp-area="" asp-controller="Empleado" asp-action="AltaGenero" class="bg-dark rounded d-inline-flex justify-content-around align-items-center" style="width:10em;color:white;text-decoration:none;padding:0.5em;">
+    <a asp-area="" asp-controller="Pais" asp-action="AltaPais" class="bg-dark rounded d-inline-flex justify-content-around align-items-center" style="width:10em;color:white;text-decoration:none;padding:0.5em;">
         <img src="~/plus-solid.svg" class="m-1" style="max-width: 1.1em;">  <p class="m-1">Dar de Alta</p>
     </a>
 </div>
@@ -29,11 +29,11 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var genero in Model)
+        @foreach (var pais in Model)
         {
             <tr>
-                <td>@genero.IdGenero</td>
-                <td>@genero.Descripcion</td>
+                <td>@pais.IdPais</td>
+                <td>@pais.Descripcion</td>
             </tr>
         }
     </tbody>
