@@ -7,7 +7,7 @@ namespace Servicio;
 
 public interface IServicioPai
 {
-    Task cargarPai(Pai pais);
+    Task<int> cargarPai(Pai pais);
     Task<string> ObtenerPaises();
 }
 
@@ -20,9 +20,9 @@ public class ServicioPai : IServicioPai
         _paiRepository = paiRepository;
     }
 
-    public async Task cargarPai(Pai pais)
+    public async Task<int> cargarPai(Pai pais)
     {
-        await _paiRepository.AddPai(pais);
+       return await _paiRepository.AddPai(pais);
     }
 
     public async Task<string> ObtenerPaises()

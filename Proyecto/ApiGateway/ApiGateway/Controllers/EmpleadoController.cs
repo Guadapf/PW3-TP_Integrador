@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
+using System.Dynamic;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ApiGateway.Controllers;
 
@@ -253,7 +255,6 @@ public class EmpleadoController : ControllerBase
     {
         // Serialize the received JSON payload back to a string
         var jsonString = jsonElement.GetRawText();
-
         // Create HTTP client and request
         var client = _httpClient.CreateClient();
         var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/pai")
@@ -266,16 +267,23 @@ public class EmpleadoController : ControllerBase
 
         // Get response content
         var content = await response.Content.ReadAsStringAsync();
-
+  
         if (response.IsSuccessStatusCode)
         {
-            return Content(content, "application/json");
+            var responseObject = JsonSerializer.Deserialize<JsonElement>(content);
+            var id = responseObject.GetProperty("idPais");
+            var salarioBase = jsonElement.GetProperty("SalarioBase");
+
+            //await CargarSalarioBaseNomina(id, salarioBase);
+            return RedirectToRoute("Nomina/CargarSalarioBaseNomina");
         }
         else
         {
             return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
         }
     }
+
+    
 
     [HttpGet("GetPaises")]
     public async Task<IActionResult> GetPaises()

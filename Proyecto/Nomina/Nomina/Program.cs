@@ -16,6 +16,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<ISalarioBaseRepository, SalarioBaseRepository>();
 builder.Services.AddTransient<ISalarioBaseService, SalarioBaseService>();
+builder.Services.AddTransient<ICompensacionService, CompensacionService>();
+builder.Services.AddTransient<ICompensacionRepository, CompensacionRepository>();
+builder.Services.AddTransient<IAntiguedadService, AntiguedadService>();
+builder.Services.AddTransient<IAntiguedadRepository, AntiguedadRepository>();
 
 var app = builder.Build();
 

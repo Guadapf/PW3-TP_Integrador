@@ -7,27 +7,39 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
+using Nomina;
 
 namespace Servicio;
 
 public interface ISalarioBaseService
 {
-    string CalcularSalario(int idPais, int idDepartamento, DateOnly fechaIngreso);
+    Task<string> CalcularSalario(int idPais, int idDepartamento, DateOnly fechaIngreso);
+    Task<string> ObtenerSalariosBase();
+    Task AgregarSalarioBase(SalarioBase salarioBase);
 }
 public class SalarioBaseService : ISalarioBaseService
 {
-   private readonly ISalarioBaseRepository _salarioBaseRepository;
+    private readonly ISalarioBaseRepository _salarioBaseRepository;
+    private readonly IAntiguedadService _antiguedadService;
+    private readonly ICompensacionService _compensacionService;
 
-    public SalarioBaseService(ISalarioBaseRepository salarioBaseRepository)
+    public SalarioBaseService(ISalarioBaseRepository salarioBaseRepository, IAntiguedadService antiguedadService, ICompensacionService compensacionService)
     {
         _salarioBaseRepository = salarioBaseRepository;
+        _antiguedadService = antiguedadService;
+        _compensacionService = compensacionService;
     }
 
-    public string CalcularSalario(int idPais, int idDepartamento, DateOnly fechaIngreso)
+    public async Task AgregarSalarioBase(SalarioBase salarioBase)
     {
-        var salarioBase = _salarioBaseRepository.ObtenerSalarioBase(idPais);
-        var compensacion = _salarioBaseRepository.ObtenerCompensacion(idDepartamento);
-        var antiguedad = _salarioBaseRepository.ObtenerAntiguedad(fechaIngreso);
+        await _salarioBaseRepository.AgregarSalarioBase(salarioBase);
+    }
+
+    public async Task<string> CalcularSalario(int idPais, int idDepartamento, DateOnly fechaIngreso)
+    {
+        var salarioBase = await _salarioBaseRepository.ObtenerSalarioBase(idPais);
+        var compensacion = await _compensacionService.ObtenerCompensacion(idDepartamento);
+        var antiguedad = await _antiguedadService.ObtenerAntiguedad(fechaIngreso);
 
         var salario = (salarioBase * compensacion) + antiguedad;
         var resultado = new
@@ -44,6 +56,18 @@ public class SalarioBaseService : ISalarioBaseService
             ReferenceHandler = ReferenceHandler.IgnoreCycles
         };
         string jsonString = JsonSerializer.Serialize(resultado, opciones);
+        return jsonString;
+    }
+
+    public async Task<string> ObtenerSalariosBase()
+    {
+        var listaSalariosBase = await _salarioBaseRepository.ObtenerSalariosBase();
+        var opciones = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            ReferenceHandler = ReferenceHandler.IgnoreCycles
+        };
+        string jsonString = JsonSerializer.Serialize(listaSalariosBase, opciones);
         return jsonString;
     }
 }

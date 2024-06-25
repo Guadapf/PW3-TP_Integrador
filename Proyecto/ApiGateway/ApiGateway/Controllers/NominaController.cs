@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.Text;
 
 namespace ApiGateway.Controllers;
 
@@ -43,6 +47,47 @@ public class NominaController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, $"Ocurrió un error al calcular el salario. Por favor, inténtelo de nuevo más tarde: {ex.Message}");
+        }
+    }
+
+    public async Task<IActionResult> CargarSalarioBaseNomina(JsonElement id, JsonElement salarioBase)
+    {
+        var idInt = JsonSerializer.Deserialize<int>(id);
+        var salarioBaseDecimal = JsonSerializer.Deserialize<decimal>(salarioBase);
+
+        var resultado = new
+        {
+            IdPais = idInt,
+            SalarioBase = salarioBaseDecimal
+        };
+
+        var opciones = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            ReferenceHandler = ReferenceHandler.IgnoreCycles
+        };
+
+        string resultadoString = JsonSerializer.Serialize(resultado, opciones);
+
+
+        var client = _httpClientFactory.CreateClient();
+        var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7254/api/salariobase/AgregarSalarioBase")
+        {
+            Content = new StringContent(resultadoString, Encoding.UTF8, "application/json")
+        };
+
+        var response = await client.SendAsync(request);
+
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            return Content(content, "application/json");
+        }
+        else
+        {
+            return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
         }
     }
 

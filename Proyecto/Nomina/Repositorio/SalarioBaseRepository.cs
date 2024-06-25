@@ -1,4 +1,5 @@
-﻿using Nomina;
+﻿using Microsoft.EntityFrameworkCore;
+using Nomina;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,10 @@ namespace Repositorio;
 
 public interface ISalarioBaseRepository
 {
-    decimal ObtenerSalarioBase(int idPais);
-    decimal ObtenerCompensacion(int idDepartamento);
-    decimal ObtenerAntiguedad(DateOnly fechaIngreso);
+    Task<decimal> ObtenerSalarioBase(int idPais);
+    Task<List<SalarioBase>> ObtenerSalariosBase();
+    Task AgregarSalarioBase(SalarioBase salarioBase);
+
 }
 public class SalarioBaseRepository : ISalarioBaseRepository
 {
@@ -22,35 +24,23 @@ public class SalarioBaseRepository : ISalarioBaseRepository
         _ctx = ctx;
     }
 
-    public decimal ObtenerAntiguedad(DateOnly fechaIngreso)
+    public async Task AgregarSalarioBase(SalarioBase salarioBase)
     {
-        var aniosAntiguedad = (DateTime.Now.Year - fechaIngreso.Year);
-        if (DateTime.Now.DayOfYear < fechaIngreso.DayOfYear)
-        {
-            aniosAntiguedad--;
-        }
-
-        return _ctx.Antiguedads
-            .Where(a => a.Anios <= aniosAntiguedad)
-            .OrderByDescending(a => a.Anios)
-            .Select(a => a.Bono)
-            .FirstOrDefault() ?? 0;
-
+        await _ctx.SalarioBases.AddAsync(salarioBase);
+        await _ctx.SaveChangesAsync();
     }
 
-    public decimal ObtenerCompensacion(int idDepartamento)
+    public async Task<decimal> ObtenerSalarioBase(int idPais)
     {
-        return _ctx.Compensacions
-            .Where(c => c.IdDepartamento == idDepartamento)
-            .Select(c => c.Multiplicador)
-            .FirstOrDefault() ?? 0;
-    }
-
-    public decimal ObtenerSalarioBase(int idPais)
-    {
-        return _ctx.SalarioBases
+        return await _ctx.SalarioBases
             .Where(s => s.IdPais == idPais)
             .Select(s => s.Salario)
-            .FirstOrDefault() ?? 0;
+            .FirstOrDefaultAsync() ?? 0;
+    }
+
+    public async Task<List<SalarioBase>> ObtenerSalariosBase()
+    {
+        return await _ctx.SalarioBases
+            .ToListAsync();
     }
 }

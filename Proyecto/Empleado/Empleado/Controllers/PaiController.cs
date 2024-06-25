@@ -28,7 +28,7 @@ public class PaiController : ControllerBase
         {
             Pai pais = JsonSerializer.Deserialize<Pai>(jsonElement);
             await _paiService.cargarPai(pais);
-            return Ok(new { Message = "País agregado correctamente." });
+            return Ok(new { pais.IdPais, Message = "País agregado correctamente." });
         }
         catch (Exception ex)
         {
