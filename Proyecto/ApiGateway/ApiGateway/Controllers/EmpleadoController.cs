@@ -45,6 +45,35 @@ public class EmpleadoController : ControllerBase
         }
 
     }
+
+    [HttpGet("GetEmpleado/{id}")]
+    public async Task<IActionResult> GetEmpleado(int id)
+    {
+        var httpRequestMessage = new HttpRequestMessage(
+            HttpMethod.Get,
+            $"https://localhost:7252/api/empleado/GetEmpleado/{id}")
+        {
+            Headers =
+            {
+                {"Accept", "application/json" },
+                {"User-Agent", "HttpRequestsSample" }
+            }
+        };
+
+        var myClientINC = _httpClient.CreateClient();
+        var response = await myClientINC.SendAsync(httpRequestMessage);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            return Content(content, "application/json");
+        }
+        else
+        {
+            return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+        }
+    }
         
     [HttpGet("GetEmpleados/{busqueda}")]
     public async Task<IActionResult> GetEmpleado(string busqueda)

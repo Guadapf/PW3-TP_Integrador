@@ -135,7 +135,7 @@ public class EmpleadoController : Controller
         var empleadoResponse = await clienteHttp.GetAsync($"https://localhost:7253/api/empleado/GetEmpleado/{id}");
         if (!empleadoResponse.IsSuccessStatusCode)
         {
-            TempData["ErrorMessage"] = $"Error al obtener los detalles del empleado. Código: {empleadoResponse.StatusCode}";
+            TempData["StackTrace"] = $"Error al obtener los detalles del empleado. Código: {empleadoResponse.StatusCode}";
             return RedirectToAction("Details");
         }
 
@@ -164,7 +164,7 @@ public class EmpleadoController : Controller
         }
         catch (JsonException ex)
         {
-            TempData["ErrorMessage"] = $"Error al deserializar los detalles del empleado: {ex.Message}";
+            TempData["StackTrace"] = $"Error al deserializar los detalles del empleado: {ex.Message}";
             return RedirectToAction("Details");
         }
     }
