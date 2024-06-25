@@ -1,20 +1,44 @@
-﻿<h2 class="text-center my-4">Gestor RRHH</h2>
+﻿@{
+    ViewBag.Title = "Empleados";
+}
 
-<div class="d-flex flex-column align-items-center">
-    <a asp-area="" asp-controller="Empleado" asp-action="Details" class="d-flex flex-column align-items-center mb-3 text-decoration-none" style="color:black">
-        <img src="~/users-solid.svg" class="mb-2" style="width: 50px;">
-        <p class="m-0 font-weight-medium" style="font-family: 'Roboto', sans-serif; font-size: 1.1rem;">Empleados</p>
-    </a>
-    <a asp-area="" asp-controller="Genero" asp-action="ListarGeneros" class="d-flex flex-column align-items-center text-decoration-none" style="color:black">
-        <img src="~/venus-mars-solid.svg" class="mb-2" style="width: 50px;">
-        <p class="m-0 font-weight-medium" style="font-family: 'Roboto', sans-serif; font-size: 1.1rem;">Géneros</p>
-    </a>
-    <a asp-area="" asp-controller="Pais" asp-action="ListarPaises" class="d-flex flex-column align-items-center text-decoration-none" style="color:black">
-        <img src="~/flag-solid.svg" class="mb-2" style="width: 50px;">
-        <p class="m-0 font-weight-medium" style="font-family: 'Roboto', sans-serif; font-size: 1.1rem;">Países</p>
-    </a>
-    <a asp-area="" asp-controller="Departamento" asp-action="ListarDepartamentos" class="d-flex flex-column align-items-center text-decoration-none" style="color:black">
-        <img src="~/building-solid.svg" class="mb-2" style="width: 50px;">
-        <p class="m-0 font-weight-medium" style="font-family: 'Roboto', sans-serif; font-size: 1.1rem;">Departamentos</p>
-    </a>
+<h2 class="text-center my-4">Gestor de Recursos Humanos</h2>
+
+<div class="container" id="panel-card">
+    <div class="row" id="card-row">
+        <div class="col" id="card-col">
+            <a asp-area="" asp-controller="Empleado" asp-action="Details">
+                <img src="~/users-solid.svg" style="width: 50px;">
+                <p>Empleados</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="row" id="card-row">
+        <div class="col" id="card-col">
+            <a asp-area="" asp-controller="Genero" asp-action="ListarGeneros">
+                <img src="~/venus-mars-solid.svg" style="width: 50px;">
+                <p>Géneros</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="row" id="card-row">
+        <div class="col" id="card-col">
+            <a asp-area="" asp-controller="Pais" asp-action="ListarPaises">
+                <img src="~/flag-solid.svg" style="width: 50px;">
+                <p>Países</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="row" id="card-row">
+        <div class="col" id="card-col">
+            <a asp-area="" asp-controller="Departamento" asp-action="ListarDepartamentos">
+                <img src="~/building-solid.svg" style="width: 50px;">
+                <p>Departamentos</p>
+            </a>
+        </div>
+    </div>
+
 </div>

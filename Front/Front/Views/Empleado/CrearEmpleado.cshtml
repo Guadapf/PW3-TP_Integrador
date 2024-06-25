@@ -1,46 +1,64 @@
 ﻿@model CrearEmpleadoModel
 
+@{
+    ViewBag.Title = "Crear Empleado";
+}
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
+    </div>
+}
+
+@if (TempData["StackTrace"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["StackTrace"]
+    </div>
+}
+
 <form action="/Empleado/CrearEmpleado" method="post">
 
-    <div class="form-group">
-        <!-- fun fact: estas weas se llaman HTML Helper y son de ASP.NET MVC -->
-        @Html.LabelFor(model => model.Nombre)
-        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", type = "text" })
-    </div>
+    <div id="fondo">
+        <div class="form-group">
+            <!-- fun fact: estas weas se llaman HTML Helper y son de ASP.NET MVC -->
+            @Html.LabelFor(model => model.Nombre)
+            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", type = "text" })
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Apellido)
-        @Html.TextBoxFor(model => model.Apellido, new { @class = "form-control", type = "text" })
-    </div>
+        <div class="form-group mt-1">
+            @Html.LabelFor(model => model.Apellido)
+            @Html.TextBoxFor(model => model.Apellido, new { @class = "form-control", type = "text" })
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.FechaNac)
-        @Html.TextBoxFor(model => model.FechaNac, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-    </div>
+        <div class="form-group mt-1">
+            @Html.LabelFor(model => model.FechaNac)
+            @Html.TextBoxFor(model => model.FechaNac, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.FechaIngreso)
-        @Html.TextBoxFor(model => model.FechaIngreso, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-    </div>
+        <div class="form-group mt-1">
+            @Html.LabelFor(model => model.FechaIngreso)
+            @Html.TextBoxFor(model => model.FechaIngreso, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.IdGenero)
-        @Html.DropDownListFor(model => model.IdGenero, (SelectList)ViewBag.generos, new { @class = "form-control" })
-    </div>
+        <div class="form-group mt-1">
+            @Html.LabelFor(model => model.IdGenero)
+            @Html.DropDownListFor(model => model.IdGenero, (SelectList)ViewBag.generos, new { @class = "form-control" })
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.IdPais)
-        @Html.DropDownListFor(model => model.IdPais, (SelectList)ViewBag.paises, new { @class = "form-control", type = "number" })
-    </div>
+        <div class="form-group mt-1">
+            @Html.LabelFor(model => model.IdPais)
+            @Html.DropDownListFor(model => model.IdPais, (SelectList)ViewBag.paises, new { @class = "form-control", type = "number" })
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.IdDepartamento)
-        @Html.DropDownListFor(model => model.IdDepartamento, (SelectList)ViewBag.departamentos, new { @class = "form-control", type = "number" })
-    </div>
+        <div class="form-group mt-1">
+            @Html.LabelFor(model => model.IdDepartamento)
+            @Html.DropDownListFor(model => model.IdDepartamento, (SelectList)ViewBag.departamentos, new { @class = "form-control", type = "number" })
+        </div>
 
-    <div class="container-fluid d-flex align-items-center">
-        <button type="submit" class="btn btn-primary" style="margin:0.5em;">Procesar</button>
-        <a asp-area="" asp-controller="Empleado" asp-action="Details" class="btn btn-danger" style="margin:0.5em;">Cancelar</a>
+        <div class="container-fluid d-flex align-items-center">
+            <button type="submit" class="btn btn-primary" style="margin:0.5em;">Procesar</button>
+            <a asp-area="" asp-controller="Empleado" asp-action="Details" class="btn btn-danger" style="margin:0.5em;">Cancelar</a>
+        </div>
     </div>
-
 </form>

@@ -17,6 +17,135 @@ html {
   min-height: 100%;
 }
 
+
+footer {
+    background-color: white;
+}
+
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-image: url("https://www.esan.edu.pe/images/blog/2020/06/02/1500x844-imagen3.jpg")
+}
+
+#panelder {
+    background-color: rgba(255,255,255,0.9);
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#paneliz {
+    background-color: rgba(155,155,155,0.9);
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    text-decoration: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+#panelder a {
+    text-decoration: none;
+    color: black;
+}
+
+#panelder :hover {
+    text-decoration: underline;
+    color: grey;
+    transition: 1s;
+}
+
+#panel {
+    margin-top: 40px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px black;
+}
+
+#panel-card {
+    background-color: rgba(255,255,255,0.9);
+    box-shadow: 2px 2px 4px black;
+    border-radius: 10px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    width: 400px;
+}
+
+
+#card-row {
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+#card-col {
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+    #card-col a {
+        text-decoration: none;
+        color: black;
+    }
+
+    #card-col :hover {
+        text-decoration: underline;
+        color: rgb(100,100,100);
+        transition: 1s;
+    }
+
+h2 {
+    color: black;
+    text-shadow: 1px 1px 2px black;
+}
+
+#encabezado {
+    background-color: rgba(255,255,255,0.9);
+}
+
+    #encabezado :hover {
+        background-color: rgba(240,240,240,0.9);
+        transition: 0.5s;
+    }
+
+#filas {
+    background-color: rgba(255,255,255,0.9);
+}
+
+    #filas :hover {
+        background-color: rgba(240,240,240,0.9);
+        transition: 0.5s;
+    }
+
+.table {
+    margin-top: 20px;
+    box-shadow: 2px 2px 10px black;
+}
+
+#boton {
+    text-decoration: none;
+    padding: 0.5em;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+}
+
+    #boton :hover {
+        text-decoration: none;
+        padding: 0.5em;
+        background-color: white;
+        color: black;
+    }
+
+#fondo {
+    background-color: rgba(255,255,255,0.9);
+    box-shadow: 1px 1px 20px black;
+    border-radius: 10px;
+    padding: 40px;
 }

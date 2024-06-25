@@ -1,5 +1,8 @@
 ﻿@model List<Front.Models.GeneroModel>
 
+@{
+    ViewBag.Title = "Generos";
+}
 @if (TempData["Message"] != null)
 {
     <div class="alert alert-info">
@@ -23,7 +26,7 @@
 
 <table class="table">
     <thead>
-        <tr>
+        <tr id="encabezado">
             <th>ID</th>
             <th>Descripción</th>
         </tr>
@@ -31,7 +34,7 @@
     <tbody>
         @foreach (var genero in Model)
         {
-            <tr>
+            <tr id="filas">
                 <td>@genero.IdGenero</td>
                 <td>@genero.Descripcion</td>
             </tr>

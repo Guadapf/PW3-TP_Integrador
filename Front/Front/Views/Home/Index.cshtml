@@ -1,14 +1,27 @@
-﻿<h2 class="text-center my-4">Gestor RRHH</h2>
+﻿@{
+    ViewBag.Title = "Home";
+}
 
-<div class="d-flex flex-column align-items-center">
-    <a asp-area="" asp-controller="Empleado" asp-action="Index" class="d-flex flex-column align-items-center mb-3 text-decoration-none">
-        <img src="~/id-card-regular.svg" class="mb-2" style="width: 50px;">
-        <p class="m-0 font-weight-medium" style="font-family: 'Roboto', sans-serif; font-size: 1.1rem;">Empleados</p>
-    </a>
-    <a asp-area="" asp-controller="Nomina" asp-action="Index" class="d-flex flex-column align-items-center text-decoration-none">
-        <img src="~/bars-staggered-solid.svg" class="mb-2" style="width: 50px;">
-        <p class="m-0 font-weight-medium" style="font-family: 'Roboto', sans-serif; font-size: 1.1rem;">Nómina</p>
-    </a>
+<h2 class="text-center my-4">Gestor de Recursos Humanos</h2>
+
+<div class="container" id="gralindex">
+    <div class="row" id="panel">
+        <div class="col" id="paneliz">
+            <h4>Gestor de recursos humanos</h4>
+            <p>Administra tus empleados</p>
+        </div>
+        <div class="col" id="panelder">
+            <a asp-area="" asp-controller="Empleado" asp-action="Index" class="">
+                <img src="~/id-card-regular.svg" class="mb-2" style="width: 50px;">
+                <p>Empleados</p>
+            </a>
+            <a asp-area="" asp-controller="Nomina" asp-action="Index">
+                <img src="~/bars-staggered-solid.svg" style="width: 50px;">
+                <p>Nómina</p>
+            </a>
+        </div>
+
+    </div>
 </div>
 
 @section Scripts {

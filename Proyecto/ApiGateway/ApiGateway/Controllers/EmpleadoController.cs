@@ -73,9 +73,8 @@ public class EmpleadoController : ControllerBase
         {
             return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
         }
-
     }
-
+        
     [HttpGet("GetEmpleados/{busqueda}")]
     public async Task<IActionResult> GetEmpleado(string busqueda)
     {
