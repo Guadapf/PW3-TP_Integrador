@@ -102,7 +102,7 @@ public class EmpleadoController : Controller
 
         try
         {
-            empleado.Salario = await ObtenerSalarioEmpleado(clienteHttp, empleado.IdPais, empleado.IdDepartamento, empleado.FechaIngreso);
+            empleado = await ObtenerDatosNominaPorEmpleado(clienteHttp, empleado);
         }
         catch (Exception ex)
         {
@@ -291,6 +291,39 @@ public class EmpleadoController : Controller
         return RedirectToAction("Details");
 
     }
+
+    private async Task<EmpleadoModel> ObtenerDatosNominaPorEmpleado(HttpClient clienteHttp, EmpleadoModel empleado)
+    {
+        try
+        {
+            var response = await clienteHttp.GetAsync($"https://localhost:7253/api/nomina/?idPais={empleado.IdPais}&idDepartamento={empleado.IdDepartamento}&fechaIngreso={empleado.FechaIngreso:yyyy-MM-dd}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadFromJsonAsync<string>();
+                var salarioResponse = JsonSerializer.Deserialize<SalarioModel>(content);
+
+                if (salarioResponse != null)
+                {
+                    empleado.SalarioBase = Math.Round(salarioResponse.SalarioBase, 2);
+                    empleado.Compensacion = Math.Round(salarioResponse.Compensacion, 2);
+                    empleado.Antiguedad = Math.Round(salarioResponse.Antiguedad, 2);
+                    empleado.Salario = Math.Round(salarioResponse.SalarioTotal, 2);
+
+                    return empleado;
+                }
+
+                throw new Exception("Error al deserializar la respuesta.");
+            }
+
+            throw new Exception($"Error al obtener el salario: {response.ReasonPhrase}");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Exception al obtener el salario del empleado: {ex.Message}");
+        }
+    }
+
     private async Task<decimal> ObtenerSalarioEmpleado(HttpClient clienteHttp, int idPais, int idDepartamento, DateOnly fechaIngreso)
     {
         try
