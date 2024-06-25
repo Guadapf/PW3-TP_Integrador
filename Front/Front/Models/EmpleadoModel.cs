@@ -21,5 +21,8 @@ public class EmpleadoModel
     public string PaisDescripcion { get; set; }
     public string DepartamentoDescripcion { get; set; }
 
+    public decimal SalarioBase { get; set; }
+    public decimal Compensacion { get; set; }
+    public decimal Antiguedad { get; set; }
     public decimal Salario { get; set; }
 }

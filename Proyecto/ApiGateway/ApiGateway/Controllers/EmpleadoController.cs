@@ -154,19 +154,19 @@ public class EmpleadoController : ControllerBase
         }
     }
 
-        [HttpDelete("EliminarEmpleado/{id}")]
-        public async Task<IActionResult> EliminarEmpleado(int id)
+    [HttpDelete("EliminarEmpleado/{id}")]
+    public async Task<IActionResult> EliminarEmpleado(int id)
+    {
+        var httpRequestMessage = new HttpRequestMessage(
+            HttpMethod.Delete,
+            $"https://localhost:7252/api/Empleado/Eliminar/{id}")
         {
-            var httpRequestMessage = new HttpRequestMessage(
-                HttpMethod.Delete,
-                $"https://localhost:7252/api/Empleado/Eliminar/{id}")
+            Headers =
             {
-                Headers =
-                {
-                    {"Accept", "application/json" },
-                    {"User-Agent", "HttpRequestsSample" }
-                }
-            };
+                {"Accept", "application/json" },
+                {"User-Agent", "HttpRequestsSample" }
+            }
+        };
 
         var myClientINC = _httpClient.CreateClient();
         var response = await myClientINC.SendAsync(httpRequestMessage);

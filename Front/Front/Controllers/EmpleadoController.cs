@@ -1,9 +1,11 @@
+using Entidades;
 using Front.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using Servicio;
+using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
@@ -49,7 +51,68 @@ public class EmpleadoController : Controller
 
         return View("Details", empleados);
     }
-    
+
+    [HttpGet("/Empleado/Detalle")]
+    public async Task<IActionResult> ObtenerEmpleado(int empleadoid)
+    {
+        var clienteHttp = _httpClientFactory.CreateClient();
+
+        var peticion = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7253/api/empleado/GetEmpleado/{empleadoid}")
+        {
+            Headers =
+        {
+            {"Accept", "application/json" },
+            {"User-Agent", "HttpRequestsSample" }
+        }
+        };
+
+        var mensajeRespuesta = await clienteHttp.SendAsync(peticion);
+        EmpleadoModel empleado = new EmpleadoModel();
+
+        if (mensajeRespuesta.IsSuccessStatusCode)
+        {
+            string cadenaRespuesta = await mensajeRespuesta.Content.ReadFromJsonAsync<string>();
+            empleado = JsonSerializer.Deserialize<EmpleadoModel>(cadenaRespuesta);
+        }
+        else
+        {
+            TempData["StackTrace"] = "Error en la petición HTTP con el código: " + mensajeRespuesta.StatusCode;
+        }
+
+        empleado = await PoblarCamposEmpleadoUnico(clienteHttp, empleado);
+
+        return View("Detalle", empleado);
+    }
+
+    private async Task<EmpleadoModel> PoblarCamposEmpleadoUnico(HttpClient clienteHttp, EmpleadoModel empleado)
+    {
+        var generosTask = ListarModelo<GeneroModel>(clienteHttp, "https://localhost:7253/api/empleado/GetGeneros");
+        var paisesTask = ListarModelo<PaisModel>(clienteHttp, "https://localhost:7253/api/empleado/GetPaises");
+        var departamentosTask = ListarModelo<DepartamentoModel>(clienteHttp, "https://localhost:7253/api/empleado/GetDepartamentos");
+
+        await Task.WhenAll(generosTask, paisesTask, departamentosTask);
+
+        var generos = await generosTask;
+        var paises = await paisesTask;
+        var departamentos = await departamentosTask;
+
+        empleado.GeneroDescripcion = generos.FirstOrDefault(g => g.IdGenero == empleado.IdGenero)?.Descripcion;
+        empleado.PaisDescripcion = paises.FirstOrDefault(p => p.IdPais == empleado.IdPais)?.Descripcion;
+        empleado.DepartamentoDescripcion = departamentos.FirstOrDefault(d => d.IdDepartamento == empleado.IdDepartamento)?.Descripcion;
+
+        try
+        {
+            empleado = await ObtenerDatosNominaPorEmpleado(clienteHttp, empleado);
+        }
+        catch (Exception ex)
+        {
+            TempData["Message"] = $"Error al obtener el salario del empleado {empleado.Nombre} {empleado.Apellido}: {ex.Message}";
+            empleado.Salario = 0;
+        }
+
+        return empleado;
+    }
+
     private async Task<List<EmpleadoModel>> PoblarCamposEmpleado(HttpClient clienteHttp, List<EmpleadoModel> empleados)
     {
         var generosTask = ListarModelo<GeneroModel>(clienteHttp, "https://localhost:7253/api/empleado/GetGeneros");
@@ -228,6 +291,39 @@ public class EmpleadoController : Controller
         return RedirectToAction("Details");
 
     }
+
+    private async Task<EmpleadoModel> ObtenerDatosNominaPorEmpleado(HttpClient clienteHttp, EmpleadoModel empleado)
+    {
+        try
+        {
+            var response = await clienteHttp.GetAsync($"https://localhost:7253/api/nomina/?idPais={empleado.IdPais}&idDepartamento={empleado.IdDepartamento}&fechaIngreso={empleado.FechaIngreso:yyyy-MM-dd}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadFromJsonAsync<string>();
+                var salarioResponse = JsonSerializer.Deserialize<SalarioModel>(content);
+
+                if (salarioResponse != null)
+                {
+                    empleado.SalarioBase = Math.Round(salarioResponse.SalarioBase, 2);
+                    empleado.Compensacion = Math.Round(salarioResponse.Compensacion, 2);
+                    empleado.Antiguedad = Math.Round(salarioResponse.Antiguedad, 2);
+                    empleado.Salario = Math.Round(salarioResponse.SalarioTotal, 2);
+
+                    return empleado;
+                }
+
+                throw new Exception("Error al deserializar la respuesta.");
+            }
+
+            throw new Exception($"Error al obtener el salario: {response.ReasonPhrase}");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Exception al obtener el salario del empleado: {ex.Message}");
+        }
+    }
+
     private async Task<decimal> ObtenerSalarioEmpleado(HttpClient clienteHttp, int idPais, int idDepartamento, DateOnly fechaIngreso)
     {
         try

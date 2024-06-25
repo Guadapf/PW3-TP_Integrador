@@ -48,6 +48,7 @@
             <th>Departamento</th>
             <th>Salario</th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -69,6 +70,11 @@
                     <form asp-action="EliminarEmpleado" asp-route-id="@empleado.IdEmpleado" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">
                         <button type="submit" class="btn btn-danger d-flex align-items-center justify-content-center"><img src="~/trash3-fill.svg" /></button>
                     </form>
+                </td>
+                <td>
+                    <a asp-controller="Empleado" asp-action="Detalle" asp-route-empleadoid="@empleado.IdEmpleado" class="bg-dark rounded" style="color:white;text-decoration:none;padding:0.5em;display:inline-block;">
+                        <img src="~/arrow-right-solid.svg" class="m-1" style="width: 1.1em;">
+                    </a>
                 </td>
             </tr>
         }
