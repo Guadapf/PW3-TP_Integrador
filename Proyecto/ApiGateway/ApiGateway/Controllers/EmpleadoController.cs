@@ -109,20 +109,16 @@ public class EmpleadoController : ControllerBase
     [HttpPost("AltaEmpleado")]
     public async Task<IActionResult> CrearEmpleado([FromBody] JsonElement jsonElement)
     {
-        // Serialize the received JSON payload back to a string
         var jsonString = jsonElement.GetRawText();
 
-        // Create HTTP client and request
         var client = _httpClient.CreateClient();
         var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/empleado")
         {
             Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
         };
 
-        // Send the request
         var response = await client.SendAsync(request);
 
-        // Get response content
         var content = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -192,20 +188,16 @@ public class EmpleadoController : ControllerBase
     [HttpPost("AltaGenero")]
     public async Task<IActionResult> AltaGenero([FromBody] JsonElement jsonElement)
     {
-        // Serialize the received JSON payload back to a string
         var jsonString = jsonElement.GetRawText();
 
-        // Create HTTP client and request
         var client = _httpClient.CreateClient();
         var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/genero")
         {
             Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
         };
 
-        // Send the request
         var response = await client.SendAsync(request);
 
-        // Get response content
         var content = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)
@@ -253,29 +245,27 @@ public class EmpleadoController : ControllerBase
     [HttpPost("AltaPais")]
     public async Task<IActionResult> AltaPais([FromBody] JsonElement jsonElement)
     {
-        // Serialize the received JSON payload back to a string
         var jsonString = jsonElement.GetRawText();
-        // Create HTTP client and request
+        
         var client = _httpClient.CreateClient();
         var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/pai")
         {
             Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
         };
 
-        // Send the request
         var response = await client.SendAsync(request);
 
-        // Get response content
         var content = await response.Content.ReadAsStringAsync();
   
         if (response.IsSuccessStatusCode)
         {
             var responseObject = JsonSerializer.Deserialize<JsonElement>(content);
-            var id = responseObject.GetProperty("idPais");
-            var salarioBase = jsonElement.GetProperty("SalarioBase");
+            var id = responseObject.GetProperty("idPais").GetInt32();
+            var salarioBase = jsonElement.GetProperty("SalarioBase").GetDecimal();
 
-            //await CargarSalarioBaseNomina(id, salarioBase);
-            return RedirectToRoute("Nomina/CargarSalarioBaseNomina");
+            await CargarSalarioBaseNomina(client, id, salarioBase);
+
+            return Content(content, "application/json");
         }
         else
         {
@@ -283,7 +273,38 @@ public class EmpleadoController : ControllerBase
         }
     }
 
-    
+    private async Task<IActionResult> CargarSalarioBaseNomina(HttpClient cliente, int idPais, decimal salarioBase)
+    {
+        var payload = new
+        {
+            IdPais = idPais,
+            Salario = salarioBase
+        };
+        var opciones = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            ReferenceHandler = ReferenceHandler.IgnoreCycles
+        };
+        var payloadJson = JsonSerializer.Serialize(payload);
+
+        var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7254/api/salariobase")
+        {
+            Content = new StringContent(payloadJson, Encoding.UTF8, "application/json")
+        };
+
+        var response = await cliente.SendAsync(request);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            return Content(content, "application/json");
+        }
+        else
+        {
+            return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+        }
+    }
 
     [HttpGet("GetPaises")]
     public async Task<IActionResult> GetPaises()
@@ -320,20 +341,16 @@ public class EmpleadoController : ControllerBase
     [HttpPost("AltaDepartamento")]
     public async Task<IActionResult> AltaDepartamento([FromBody] JsonElement jsonElement)
     {
-        // Serialize the received JSON payload back to a string
         var jsonString = jsonElement.GetRawText();
 
-        // Create HTTP client and request
         var client = _httpClient.CreateClient();
         var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7252/api/departamento")
         {
             Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
         };
 
-        // Send the request
         var response = await client.SendAsync(request);
 
-        // Get response content
         var content = await response.Content.ReadAsStringAsync();
 
         if (response.IsSuccessStatusCode)

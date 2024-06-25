@@ -45,8 +45,9 @@ public partial class NominaContext : DbContext
         modelBuilder.Entity<Compensacion>(entity =>
         {
             entity
-                .HasNoKey()
-                .ToTable("Compensacion");
+                    .HasKey(e => e.IdCompensacion);
+
+            entity.ToTable("Compensacion");
 
             entity.Property(e => e.IdCompensacion)
                 .ValueGeneratedOnAdd()
@@ -60,8 +61,9 @@ public partial class NominaContext : DbContext
         modelBuilder.Entity<SalarioBase>(entity =>
         {
             entity
-                .HasNoKey()
-                .ToTable("SalarioBase");
+                    .HasKey(e => e.IdSalarioBase);
+
+            entity.ToTable("SalarioBase");
 
             entity.Property(e => e.IdPais).HasColumnName("idPais");
             entity.Property(e => e.IdSalarioBase)

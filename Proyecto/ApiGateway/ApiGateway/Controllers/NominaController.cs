@@ -26,7 +26,7 @@ public class NominaController : ControllerBase
         {
             var httpRequestMessage = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"https://localhost:7254/CalcularSalario?idPais={idPais}&idDepartamento={idDepartamento}&fechaIngreso={fechaIngreso:yyyy-MM-dd}");
+                $"https://localhost:7254/Api/SalarioBase/CalcularSalario?idPais={idPais}&idDepartamento={idDepartamento}&fechaIngreso={fechaIngreso:yyyy-MM-dd}");
 
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -49,7 +49,7 @@ public class NominaController : ControllerBase
             return StatusCode(500, $"Ocurrió un error al calcular el salario. Por favor, inténtelo de nuevo más tarde: {ex.Message}");
         }
     }
-
+    /*
     public async Task<IActionResult> CargarSalarioBaseNomina(JsonElement id, JsonElement salarioBase)
     {
         var idInt = JsonSerializer.Deserialize<int>(id);
@@ -90,5 +90,5 @@ public class NominaController : ControllerBase
             return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
         }
     }
-
+    */
 }

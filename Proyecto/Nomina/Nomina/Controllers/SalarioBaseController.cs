@@ -9,10 +9,12 @@ namespace Nomina.Controllers;
 public class SalarioBaseController : ControllerBase
 {
     private readonly ISalarioBaseService _salarioBaseService;
+    private readonly ILogger<SalarioBaseController> _logger;
 
-    public SalarioBaseController(ISalarioBaseService salarioBaseService)
+    public SalarioBaseController(ISalarioBaseService salarioBaseService, ILogger<SalarioBaseController> logger)
     {
         _salarioBaseService = salarioBaseService;
+        _logger = logger;
     }
 
 
@@ -43,7 +45,7 @@ public class SalarioBaseController : ControllerBase
         }
     }
 
-    [HttpPost("AgregarSalarioBase")]
+    [HttpPost]
     public async Task<IActionResult> AgregarSalarioBase([FromBody] JsonElement jsonElement)
     {
         if (!ModelState.IsValid)
@@ -51,11 +53,20 @@ public class SalarioBaseController : ControllerBase
 
         try
         {
-            SalarioBase salarioBase = JsonSerializer.Deserialize<SalarioBase>(jsonElement);
-            await _salarioBaseService.AgregarSalarioBase(salarioBase);
+            var salarioBaseEnt = JsonSerializer.Deserialize<SalarioBase>(jsonElement.ToString());
+            if (salarioBaseEnt == null)
+            {
+                _logger.LogError("Deserialization of SalarioBase failed");
+                return BadRequest("Invalid payload");
+            }
+
+            _logger.LogInformation($"Deserialized SalarioBase: {salarioBaseEnt.IdPais}, {salarioBaseEnt.Salario}");
+            await _salarioBaseService.AgregarSalarioBase(salarioBaseEnt);
             return Ok(new { Message = "Salario Base agregado correctamente" });
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "An error occurred while adding SalarioBase");
             var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "Detalles no disponibles";
             return StatusCode(500, $"Error interno del servidor: {innerExceptionMessage}");
         }
