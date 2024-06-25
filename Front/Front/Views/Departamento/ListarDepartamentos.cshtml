@@ -23,7 +23,7 @@
 
 <table class="table">
     <thead>
-        <tr>
+        <tr id="encabezado">
             <th>ID</th>
             <th>Descripción</th>
         </tr>
@@ -31,7 +31,7 @@
     <tbody>
         @foreach (var departamento in Model)
         {
-            <tr>
+            <tr id="filas">
                 <td>@departamento.IdDepartamento</td>
                 <td>@departamento.Descripcion</td>
             </tr>

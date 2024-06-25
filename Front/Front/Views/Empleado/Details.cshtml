@@ -16,6 +16,17 @@
 
 <div class="container-fluid d-flex justify-content-between align-items-center">
     <a asp-area="" asp-controller="Empleado" asp-action="Index" class="bg-dark rounded" style="color:white;text-decoration:none;padding:0.5em;">Volver</a>
+
+    <form action="/Empleado/BuscarEmpleado" method="get" class="d-flex">
+        <div class="form-group d-flex align-items-center me-2">
+            @Html.TextBox("busqueda", null, new { @class = "form-control", type = "text", placeholder = "Buscar..." })
+        </div>
+
+        <button type="submit" class="bg-dark rounded d-inline-flex justify-content-around align-items-center">
+            <img src="~/magnifying-glass-solid.svg" class="m-1" style="width: 1.1em;">
+        </button>
+    </form>
+
     <a asp-area="" asp-controller="Empleado" asp-action="CrearEmpleado" class="bg-dark rounded d-inline-flex justify-content-around align-items-center" style="width:10em;color:white;text-decoration:none;padding:0.5em;">
         <img src="~/user-plus-solid.svg" class="m-1" style="max-width: 1.1em;margin-right:0.5em">  <p class="m-1">Dar de Alta</p>
     </a>
@@ -23,7 +34,7 @@
 
 <table class="table">
     <thead>
-        <tr>
+        <tr id="encabezado">
             <th></th>
             <th>Nombre</th>
             <th>Apellido</th>
@@ -39,7 +50,7 @@
     <tbody>
         @foreach (var empleado in Model)
         {
-            <tr>
+            <tr id="filas">
                 <td>
                     <a asp-controller="Empleado" asp-action="ActualizarEmpleado" asp-route-id="@empleado.IdEmpleado" class="btn btn-info d-flex align-items-center justify-content-center w-auto"><img src="~/pencil-square.svg" /></a>
                 </td>
@@ -53,7 +64,7 @@
                 <td>$ @empleado.Salario</td>
                 <td>
                     <form asp-action="EliminarEmpleado" asp-route-id="@empleado.IdEmpleado" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">
-                        <button type="submit" class="btn btn-danger"><img src="~/trash3-fill.svg" /></button>
+                        <button type="submit" class="btn btn-danger d-flex align-items-center justify-content-center"><img src="~/trash3-fill.svg" /></button>
                     </form>
                 </td>
             </tr>
