@@ -34,7 +34,7 @@
 
 <table class="table">
     <thead>
-        <tr>
+        <tr id="encabezado">
             <th></th>
             <th>Nombre</th>
             <th>Apellido</th>
@@ -50,7 +50,7 @@
     <tbody>
         @foreach (var empleado in Model)
         {
-            <tr>
+            <tr id="filas">
                 <td>
                     <a asp-controller="Empleado" asp-action="ActualizarEmpleado" asp-route-id="@empleado.IdEmpleado" class="btn btn-info d-flex align-items-center justify-content-center w-auto"><img src="~/pencil-square.svg" /></a>
                 </td>
@@ -64,7 +64,7 @@
                 <td>$ @empleado.Salario</td>
                 <td>
                     <form asp-action="EliminarEmpleado" asp-route-id="@empleado.IdEmpleado" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">
-                        <button type="submit" class="btn btn-danger"><img src="~/trash3-fill.svg" /></button>
+                        <button type="submit" class="btn btn-danger d-flex align-items-center justify-content-center"><img src="~/trash3-fill.svg" /></button>
                     </form>
                 </td>
             </tr>
