@@ -355,6 +355,52 @@ public class EmpleadoController : ControllerBase
 
         if (response.IsSuccessStatusCode)
         {
+            /*
+            var responseObject = JsonSerializer.Deserialize<JsonElement>(content);
+            var id = responseObject.GetProperty("idPais").GetInt32();
+            var salarioBase = jsonElement.GetProperty("SalarioBase").GetDecimal();
+
+            await CargarSalarioBaseNomina(client, id, salarioBase);
+            */
+
+            var responseObject = JsonSerializer.Deserialize<JsonElement>(content);
+            var id = responseObject.GetProperty("idDepartamento").GetInt32();
+            var compensacion = jsonElement.GetProperty("Compensacion").GetDecimal();
+            await CargarCompensacionNomina(client, id, compensacion);
+
+            return Content(content, "application/json");
+        }
+        else
+        {
+            return StatusCode((int)response.StatusCode, "mission failed, we'll get 'em next time");
+        }
+    }
+
+    private async Task<IActionResult> CargarCompensacionNomina(HttpClient cliente, int idDepartamento, decimal compensacion)
+    {
+        var payload = new
+        {
+            IdDepartamento = idDepartamento,
+            Multiplicador = compensacion
+        };
+        var opciones = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            ReferenceHandler = ReferenceHandler.IgnoreCycles
+        };
+        var payloadJson = JsonSerializer.Serialize(payload);
+
+        var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7254/api/compensacion")
+        {
+            Content = new StringContent(payloadJson, Encoding.UTF8, "application/json")
+        };
+
+        var response = await cliente.SendAsync(request);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
             return Content(content, "application/json");
         }
         else

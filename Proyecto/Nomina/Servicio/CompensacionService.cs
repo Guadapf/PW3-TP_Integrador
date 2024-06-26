@@ -14,6 +14,7 @@ public interface ICompensacionService
 {
     Task<decimal> ObtenerCompensacion(int idDepartamento);
     Task<string> ObtenerCompensaciones();
+    Task AgregarCompensacion(Compensacion compensacion);
 }
 public class CompensacionService : ICompensacionService
 {
@@ -39,5 +40,10 @@ public class CompensacionService : ICompensacionService
         };
         string jsonString = JsonSerializer.Serialize(listaCompensaciones, opciones);
         return jsonString;
+    }
+
+    public async Task AgregarCompensacion(Compensacion compensacion)
+    {
+        await _compensacionRepository.AgregarCompensacion(compensacion);
     }
 }

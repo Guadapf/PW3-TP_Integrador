@@ -3,11 +3,18 @@
 @{
     ViewBag.Title = "Alta Departamento";
 }
-<form action="/Empleado/AltaDepartamento" method="post">
+<a asp-area="" asp-controller="Departamento" asp-action="ListarDepartamentos" class="bg-dark rounded" style="color:white;text-decoration:none;padding:0.5em;">
+    <img src="~/arrow-left-solid.svg" class="m-1" style="width: 1.1em;">
+</a>
+<form action="/Departamento/AltaDepartamento" method="post" id="fondo">
 
-    <div class="form-group" id="fondo">
+    <div class="form-group">
         @Html.LabelFor(model => model.Descripcion)
         @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control", type = "text" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Compensacion)
+        @Html.TextBoxFor(model => model.Compensacion, new { @class = "form-control", type = "number" })
     </div>
 
     <div class="container-fluid d-flex align-items-center">

@@ -18,7 +18,9 @@
 }
 
 <div class="container-fluid d-flex justify-content-between align-items-center">
-    <a asp-area="" asp-controller="Empleado" asp-action="Index" class="bg-dark rounded" style="color:white;text-decoration:none;padding:0.5em;">Volver</a>
+    <a asp-area="" asp-controller="Home" asp-action="Index" class="bg-dark rounded" style="color:white;text-decoration:none;padding:0.5em;">
+        <img src="~/arrow-left-solid.svg" class="m-1" style="width: 1.1em;">
+    </a>
     <a asp-area="" asp-controller="Genero" asp-action="AltaGenero" class="bg-dark rounded d-inline-flex justify-content-around align-items-center" style="width:10em;color:white;text-decoration:none;padding:0.5em;">
         <img src="~/plus-solid.svg" class="m-1" style="max-width: 1.1em;">  <p class="m-1">Dar de Alta</p>
     </a>

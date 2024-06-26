@@ -28,7 +28,7 @@ public class DepartamentoController : ControllerBase
         {
             Departamento departamento = JsonSerializer.Deserialize<Departamento>(jsonElement);
             await _departamentoService.cargarDepartamento(departamento);
-            return Ok(new { Message = "Departamento agregado correctamente." });
+            return Ok(new { departamento.IdDepartamento, Message = "Departamento agregado correctamente." });
         }
         catch (Exception ex)
         {

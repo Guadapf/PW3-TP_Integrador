@@ -1,89 +1,92 @@
 ﻿@model EmpleadoModel
 <div id="fondo">
-<div class="container my-4">
-    <div class="row mb-3">
-        <div class="col text-center">
-            <h2>@(Model.Nombre + " " + Model.Apellido)</h2>
+    <a asp-area="" asp-controller="Empleado" asp-action="Details" class="bg-dark rounded" style="color:white;text-decoration:none;padding:0.5em;">
+        <img src="~/arrow-left-solid.svg" class="m-1" style="width: 1.1em;">
+    </a>
+    <div class="container my-4">
+        <div class="row mb-3">
+            <div class="col text-center">
+                <h2>@(Model.Nombre + " " + Model.Apellido)</h2>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 text-center">
-            <img src="~/user-tie-solid.svg" class="img-fluid rounded" style="max-width: 10em;">
-        </div>
-        <div class="col-md-8">
-            <div class="container">
-                <div class="row mb-2">
-                    <div class="col">
-                        <strong>País:</strong> @(Model.PaisDescripcion)
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="~/user-tie-solid.svg" class="img-fluid rounded" style="max-width: 10em;">
+            </div>
+            <div class="col-md-8">
+                <div class="container">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong>País:</strong> @(Model.PaisDescripcion)
+                        </div>
                     </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col">
-                        <strong>Departamento:</strong> @(Model.DepartamentoDescripcion)
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong>Departamento:</strong> @(Model.DepartamentoDescripcion)
+                        </div>
                     </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col">
-                        <strong>Edad:</strong> @($"{DateOnly.FromDateTime(DateTime.Now).AddYears(0 - Model.FechaNac.Year).Year} años")
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong>Edad:</strong> @($"{DateOnly.FromDateTime(DateTime.Now).AddYears(0 - Model.FechaNac.Year).Year} años")
+                        </div>
                     </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col">
-                        <strong>Antigüedad:</strong> @($"{DateOnly.FromDateTime(DateTime.Now).AddYears(0 - Model.FechaIngreso.Year).Year} años")
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong>Antigüedad:</strong> @($"{DateOnly.FromDateTime(DateTime.Now).AddYears(0 - Model.FechaIngreso.Year).Year} años")
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <strong>Género:</strong> @(Model.GeneroDescripcion)
+                    <div class="row">
+                        <div class="col">
+                            <strong>Género:</strong> @(Model.GeneroDescripcion)
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="container my-4">
-    <div class="row text-center">
-        <div class="col-md-3">
-            <div class="p-3 border rounded">
-                <div class="mb-2">
-                    <strong>Base:</strong> @($"${Model.SalarioBase}")
-                </div>
-                <div>
-                    <strong>Subtotal:</strong> @($"${Model.SalarioBase}")
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="p-3 border rounded">
-                <div class="mb-2">
-                    <strong>Compensación:</strong> @($"*{Model.Compensacion}")
-                </div>
-                <div>
-                    <strong>Subtotal:</strong> @($"${Model.SalarioBase * Model.Compensacion}")
+    <div class="container my-4">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <div class="p-3 border rounded">
+                    <div class="mb-2">
+                        <strong>Base:</strong> @($"${Model.SalarioBase}")
+                    </div>
+                    <div>
+                        <strong>Subtotal:</strong> @($"${Model.SalarioBase}")
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="p-3 border rounded">
-                <div class="mb-2">
-                    <strong>Bono:</strong> @($"+${Model.Antiguedad}")
-                </div>
-                <div>
-                    <strong>Subtotal:</strong> @($"${Model.SalarioBase * Model.Compensacion + Model.Antiguedad}")
+            <div class="col-md-3">
+                <div class="p-3 border rounded">
+                    <div class="mb-2">
+                        <strong>Compensación:</strong> @($"*{Model.Compensacion}")
+                    </div>
+                    <div>
+                        <strong>Subtotal:</strong> @($"${Model.SalarioBase * Model.Compensacion}")
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="p-3 border rounded">
-                <div class="mb-2">
-                    <strong>Total:</strong>
+            <div class="col-md-3">
+                <div class="p-3 border rounded">
+                    <div class="mb-2">
+                        <strong>Bono:</strong> @($"+${Model.Antiguedad}")
+                    </div>
+                    <div>
+                        <strong>Subtotal:</strong> @($"${Model.SalarioBase * Model.Compensacion + Model.Antiguedad}")
+                    </div>
                 </div>
-                <div>
-                    @($"${Model.Salario}")
+            </div>
+            <div class="col-md-3">
+                <div class="p-3 border rounded">
+                    <div class="mb-2">
+                        <strong>Total:</strong>
+                    </div>
+                    <div>
+                        @($"${Model.Salario}")
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>

@@ -50,14 +50,6 @@ public class PaisController : Controller
 
     public async Task<IActionResult> ListarPaises()
     {
-        /*
-        List<PaisModel> paises = new List<PaisModel>();
-        paises.Add(new PaisModel { IdPais = 1, Descripcion = "Argentina (namber uan)" });
-        paises.Add(new PaisModel { IdPais = 2, Descripcion = "República Popular China" });
-        paises.Add(new PaisModel { IdPais = 3, Descripcion = "Unión de Repúblicas Socialistas Soviéticas" });
-        */
-
-        // Crear petición
         var mensajePeticionHttp = new HttpRequestMessage(
             HttpMethod.Get,
             "https://localhost:7253/api/empleado/GetPaises")
@@ -69,14 +61,11 @@ public class PaisController : Controller
             }
         };
 
-        // Crear cliente HTTP
         var clienteHttp = _httpClientFactory.CreateClient();
 
-        // Realizar petición y almacenar respuesta
         var mensajeRespuesta = await clienteHttp.SendAsync(mensajePeticionHttp);
         List<PaisModel> paises = new List<PaisModel>();
 
-        // Desserialización   *- B E G I N S -*
         if (mensajeRespuesta.IsSuccessStatusCode)
         {
             try

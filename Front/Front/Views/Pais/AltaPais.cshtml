@@ -3,13 +3,16 @@
 @{
     ViewBag.Title = "Alta Pais";
 }
-<form action="/Pais/AltaPais" method="post">
+<a asp-area="" asp-controller="Pais" asp-action="ListarPaises" class="bg-dark rounded" style="color:white;text-decoration:none;padding:0.5em;">
+    <img src="~/arrow-left-solid.svg" class="m-1" style="width: 1.1em;">
+</a>
+<form action="/Pais/AltaPais" method="post" id="fondo">
 
-    <div class="form-group" id="fondo">
+    <div class="form-group">
         @Html.LabelFor(model => model.Descripcion)
         @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control", type = "text" })
     </div>
-    <div class="form-group" id="fondo">
+    <div class="form-group">
         @Html.LabelFor(model => model.SalarioBase)
         @Html.TextBoxFor(model => model.SalarioBase, new { @class = "form-control", type = "number" })
     </div>

@@ -5,7 +5,7 @@ namespace Repositorio;
 
 public interface IDepartamentoRepository
 {
-    Task AddDepartamento(Departamento departamento);
+    Task<int> AddDepartamento(Departamento departamento);
     Task<List<Departamento>> GetDepartamentos();
 }
 
@@ -18,10 +18,11 @@ public class DepartamentoRepository : IDepartamentoRepository
         _ctx = empleadoContext;
     }
 
-    public async Task AddDepartamento(Departamento departamento)
+    public async Task<int> AddDepartamento(Departamento departamento)
     {
         await _ctx.AddAsync(departamento);
         await _ctx.SaveChangesAsync();
+        return departamento.IdDepartamento;
     }
 
     public async Task<List<Departamento>> GetDepartamentos()

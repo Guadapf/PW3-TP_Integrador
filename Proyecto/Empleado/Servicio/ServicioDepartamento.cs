@@ -7,7 +7,7 @@ namespace Servicio;
 
 public interface IServicioDepartamento
 {
-    Task cargarDepartamento(Departamento departamento);
+    Task<int> cargarDepartamento(Departamento departamento);
     Task<string> ObtenerDepartamentos();
 }
 
@@ -20,9 +20,9 @@ public class ServicioDepartamento : IServicioDepartamento
         _departamentoRepository = departamentoRepository;
     }
 
-    public async Task cargarDepartamento(Departamento departamento)
+    public async Task<int> cargarDepartamento(Departamento departamento)
     {
-        await _departamentoRepository.AddDepartamento(departamento);
+        return await _departamentoRepository.AddDepartamento(departamento);
     }
 
     public async Task<string> ObtenerDepartamentos()

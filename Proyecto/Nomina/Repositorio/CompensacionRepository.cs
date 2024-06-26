@@ -12,6 +12,7 @@ public interface ICompensacionRepository
 {
     Task<decimal> ObtenerCompensacion(int idDepartamento);
     Task<List<Compensacion>> ObtenerCompensaciones();
+    Task AgregarCompensacion(Compensacion compensacion);
 }
 public class CompensacionRepository : ICompensacionRepository
 {
@@ -34,5 +35,11 @@ public class CompensacionRepository : ICompensacionRepository
     {
         return await _ctx.Compensacions
             .ToListAsync();
+    }
+
+    public async Task AgregarCompensacion(Compensacion compensacion)
+    {
+        await _ctx.Compensacions.AddAsync(compensacion);
+        await _ctx.SaveChangesAsync();
     }
 }
